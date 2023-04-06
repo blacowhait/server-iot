@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if message %}
+    <h1>{{ message }}</h1>
+{% else %}
+<h2>Change password ?</h2>
+<form action="change-password" method="post">
+    <div class="container">
+        <label for="old_password"><b>old password</b></label>
+        <input type="text" placeholder="Enter your old password" name="old_password" required>
+        <br>
+        <label for="new_password"><b>new password</b></label>
+        <input type="text" placeholder="Enter your new password" name="new_password" required><br>
+
+        <button type="submit">Change !</button>
+    </div>
+</form><br>
+{% endif %}
+
+{% endblock content %}

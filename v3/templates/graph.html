@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Graph</title>
+<a>{{ fields[i] }}</a>
+<script type="text/javascript">
+window.onload = function () {
+
+{% for i in number %}
+var chart = new CanvasJS.Chart("{{ fields[i] }}", {
+    theme: "light1", // "light2", "dark1", "dark2"
+    animationEnabled: false, // change to true		
+    title:{
+        text: "{{ fields[i] }} Statistics"
+    },
+    data: [
+    {
+        // Change type to "column", "bar", "area", "spline", "pie",etc.
+        type: "spline",
+        dataPoints: [
+            {{ querys[i]|safe }}
+    ]
+    }
+    ]
+});
+chart.render();
+{% endfor %}
+}
+</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+    </head>
+<body>
+{% for i in number %}
+<div id="{{ fields[i] }}" style="height: 370px; width: 100%;display: inline-block;"></div>
+{% endfor %}
+</body>
+</html>

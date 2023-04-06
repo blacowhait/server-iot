@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Upload new feed</h2>
+<form action="../../../../../feed/add" method="post">
+    <div class="container">
+        <label for="id_node"><b>id node</b></label><br>
+        <input type="text" placeholder="Enter node id" name="id_node" required><br>
+
+        <label for="value"><b>feed value</b></label><br>
+        <input type="text" placeholder="1,2,3,4,5" name="value" required><br>
+
+        <button type="submit">Add</button>
+    </div>
+</form><br>
+{% endblock content %}

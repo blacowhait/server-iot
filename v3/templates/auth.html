@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if message %}
+    <h1>{{ message }}</h1>
+{% else %}
+<h1>Server IOT App</h1>
+<h2>Login</h2>
+<form action="auth/login" method="post">
+    <div class="container">
+        <label for="eml"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Login</button>
+    </div>
+</form><br>
+
+<h2>Forgot password ?</h2>
+<form action="auth/forgot-password" method="post">
+    <div class="container">
+        <label for="eml"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <button type="submit">Send Email</button>
+    </div>
+</form><br>
+
+<h2>Regist</h2>
+<form action="auth/regist" method="post">
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label for="eml"><b>email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Regist</button>
+    </div>
+</form>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if akuns %}
+<table style="width:100%">
+<tr>
+    <th>id</th>
+    <th>username</th> 
+    <th>email</th>
+    <th>is admin</th>
+    <th>activated</th>
+    <th>last update</th>
+</tr>
+
+    {% for akun in akuns %}
+<tr>
+    <td>{{ akun.id }}</td>
+    <td>{{ akun.username }}</td>
+    <td>{{ akun.email }}</td>
+    <td>{{ akun.is_admin }}</td>
+    <td>{{ akun.activated }}</td>
+    <td>{{ akun.time_updated }}</td>
+</tr>
+    {% endfor %}
+</table>
+{% else %}
+<h2>not added yet</h2>
+{% endif %}
+
+{% endblock content %}

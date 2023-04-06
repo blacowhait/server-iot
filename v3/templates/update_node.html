@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Update new node</h2>
+<form action="../../../../../node/add/{{update_id}}" method="post">
+    <div class="container">
+        <label for="name"><b>node name</b></label><br>
+        <input type="text" placeholder="Enter node name" name="name" required><br>
+
+        <label for="location"><b>node location</b></label><br>
+        <input type="text" placeholder="Enter node location" name="location" required><br>
+
+        <label for="id_hardware_node"><b>node hardware id</b></label><br>
+        <input type="text" placeholder="1,2,3,4,5" name="id_hardware_node" required><br>
+
+        <label for="id_hardware_sensor"><b>node hardware sensor</b></label><br>
+        <input type="text" placeholder="6,7,8,9,10" name="id_hardware_sensor" required><br>
+
+        <label for="field_sensor"><b>node field sensor</b></label><br>
+        <textarea name="field_sensor" rows="10" cols="30" placeholder="Enter node description"></textarea><br>
+
+        <button type="submit">Add</button>
+    </div>
+</form><br>
+{% endblock content %}

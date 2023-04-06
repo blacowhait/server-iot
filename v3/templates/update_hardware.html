@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Update new hardware</h2>
+<form action="../../../../../hardware/add/{{update_id}}" method="post">
+    <div class="container">
+        <label for="name"><b>Hardware name</b></label><br>
+        <input type="text" placeholder="Enter hardware name" name="name" required><br>
+
+        <label for="type"><b>Hardware type</b></label><br>
+        <input type="text" placeholder="Enter hardware type" name="type" required><br>
+
+        <label for="desc"><b>Hardware description</b></label><br>
+        <textarea name="desc" rows="10" cols="30" placeholder="Enter hardware description"></textarea><br>
+
+        <button type="submit">Update</button>
+    </div>
+</form><br>
+{% endblock content %}
