@@ -16,15 +16,6 @@ router = APIRouter(
     tags=['feed']
 )
     
-@router.get('/')
-async def get_all_Node(request: Request, db: Session = Depends(get_db)):
-    kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
-    if akun:
-        return templates.TemplateResponse("feed.html", {"request": request})
-    else:
-        return templates.TemplateResponse("auth.html", {"request": request})
-    
 @router.post('/add')
 async def create(request: Request, value: str = Form(),  id_node: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')

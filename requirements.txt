@@ -1,0 +1,8 @@
+fastapi[all]
+psycopg2
+# sudo apt-get install libpq-dev
+bcrypt
+sib_api_v3_sdk
+asyncpg
+python-jose
+passlib

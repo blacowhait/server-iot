@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Form, Request
 from fastapi.responses import RedirectResponse, JSONResponse
-from controller.authController import cookie_checker
+from controller.authController import get_current_user
 from database.db import get_db
+from model.account import Account
 from sqlalchemy.orm import Session
 from model.feed import Feed
 from model.node import Node
 from settings import get_settings
+from pydantic import BaseModel
 
 settings = get_settings()
 
@@ -13,27 +15,20 @@ router = APIRouter(
     prefix="/feed",
     tags=['feed']
 )
-    
-@router.get('/')
-async def get_all_Node(request: Request, db: Session = Depends(get_db)):
-    kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
-    if akun:
-        return JSONResponse({"msg":"Just Add your node"}, status_code=200)
-    else:
-        return JSONResponse({"message":"Login First"}, status_code=401)
+
+class form_add_feed(BaseModel):
+    value: str
+    id_node: str
     
 @router.post('/add')
-async def create(request: Request, value: str = Form(),  id_node: str = Form(), db: Session = Depends(get_db)):
-    kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
-    value = [int(_) for _ in value.split(',')]
-    len_node_object = await Feed.get_len(id_node)
+async def create(form_data: form_add_feed, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+    value = [int(_) for _ in form_data.value.split(',')]
+    len_node_object = await Feed.get_len(form_data.id_node)
     len_node = len(len_node_object[0].get('field_sensor'))
     if akun:
         if len_node == len(value):
-            if await Feed.create(id_node, value):
-                return RedirectResponse("/feed", status_code=status.HTTP_303_SEE_OTHER)
+            if await Feed.create(form_data.id_node, value):
+                return JSONResponse({"message":f"Success add new feed for node = {form_data.id_node} !"}, status_code=201)
             else:
                 raise HTTPException(
                     status_code = status.HTTP_400_BAD_REQUEST,
@@ -48,9 +43,7 @@ async def create(request: Request, value: str = Form(),  id_node: str = Form(), 
         return JSONResponse({"message":"Login First"}, status_code=401)
     
 @router.get('/detail/{id}')
-async def get_stats(request: Request, id: int, db: Session = Depends(get_db)):
-    kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+async def get_stats(id: int, akun : Account = Depends(get_current_user)):
     if akun:
         feed_object = await Feed.get_feed_data(id)
         field_object = await Node.get_field_data(id)

@@ -3,12 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from controller import authController, hardwareController, nodeController, feedController
-from controller.authController import cookie_checker
+from controller.authController import get_current_user
+from model.account import Account
 from database.db import engine
 from database.conn_pool import database_instance
 from database.db import get_db
 from sqlalchemy.orm import Session
 from settings import get_settings
+from json import dumps
 
 settings = get_settings()
 app = FastAPI(
@@ -44,10 +46,8 @@ async def startup():
     # app.state.db = database_instance
 
 @app.get('/')
-async def index(request: Request, db: Session = Depends(get_db)):
-    kue = request.cookies.get('user')
+async def index(request: Request, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     try:
-        akun = await cookie_checker(kue, db)
-        return JSONResponse({"akun":akun}, status_code=200)
+        return JSONResponse({"message":f"Hallo {akun.username}"}, status_code=200)
     except:
         return JSONResponse({"message":"Login First!"}, status_code=401)

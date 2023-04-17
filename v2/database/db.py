@@ -41,9 +41,9 @@ class Node_DB(Base):
     name = Column(String)
     location = Column(String)
     field_sensor = Column(ARRAY(String))
-    id_hardware_node = Column(Integer)
+    id_hardware_node = Column(Integer, ForeignKey("hardware.id"))
     id_user = Column(Integer, ForeignKey("account.id"))
-    id_hardware_sensor = Column(ARRAY(Integer))
+    id_hardware_sensor = Column(ARRAY(Integer, ForeignKey("hardware.id")))
 
 class Feed_DB(Base):
     __tablename__ = 'feed'
