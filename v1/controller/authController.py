@@ -152,18 +152,3 @@ async def change(form_data: form_data_change, db: Session = Depends(get_db), acc
             return JSONResponse({"message":"wrong old pass!"}, status_code=400)
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
-    
-@router.get("/user")
-async def get_user(acc : Account = Depends(get_current_user)):
-    if acc:
-        return {"akun":acc}
-    else:
-        return JSONResponse({"message":"Login First"}, status_code=401)
-    
-@router.get("/all-user")
-async def get_all_user(acc : Account = Depends(get_current_user), db : Session = Depends(get_db)):
-    if acc.is_admin:
-        all_acc = Account.get_all_user(db)
-        return {"List_akun":all_acc}
-    else:
-        return JSONResponse({"message":"account is not admin"}, status_code=403)

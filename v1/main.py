@@ -2,7 +2,7 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
-from controller import authController, hardwareController, nodeController, feedController
+from controller import authController, hardwareController, nodeController, sensorController, channelController
 from controller.authController import get_current_user
 from model.account import Account
 from database.db import engine
@@ -31,7 +31,8 @@ app.middleware("http")
 app.include_router(authController.router)
 app.include_router(hardwareController.router)
 app.include_router(nodeController.router)
-app.include_router(feedController.router)
+app.include_router(sensorController.router)
+app.include_router(channelController.router)
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(request, err):
