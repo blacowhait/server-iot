@@ -41,7 +41,7 @@ async def get_sensor(idn: int, id: int, db: Session = Depends(get_db), akun : Ac
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
     
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_sensor, akun : Account = Depends(get_current_user)):
     if akun:
         if await Node.check(form_data.id_node, akun.id):
@@ -51,7 +51,7 @@ async def create(form_data: form_add_sensor, akun : Account = Depends(get_curren
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
     
-@router.put('/add/{id}')
+@router.put('/{id}')
 async def update(id: int, form_data: form_add_sensor, akun: Account = Depends(get_current_user)):
     if akun:
         if await Node.check(form_data.id_node, akun.id):

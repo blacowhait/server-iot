@@ -20,7 +20,7 @@ class form_add_feed(BaseModel):
     value: str
     id_node: str
     
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_feed, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     value = [int(_) for _ in form_data.value.split(',')]
     len_node_object = await Feed.get_len(form_data.id_node)

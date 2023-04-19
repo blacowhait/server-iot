@@ -16,7 +16,7 @@ router = APIRouter(
     tags=['feed']
 )
     
-@router.post('/add')
+@router.post('/')
 async def create(request: Request, value: str = Form(),  id_node: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)

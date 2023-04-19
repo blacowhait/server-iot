@@ -25,7 +25,7 @@ async def get_all_Node(request: Request, db: Session = Depends(get_db)):
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
     
-@router.post('/add')
+@router.post('/')
 async def create(request: Request, name: str = Form(),  location: str = Form(), field_sensor: str = Form(), id_hardware_node: str = Form(), id_hardware_sensor: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)
@@ -56,8 +56,8 @@ async def update_form(request: Request, id: int, db: Session = Depends(get_db)):
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
 
-# @router.put('/add/{id}')
-@router.post('/add/{id}')
+# @router.put('/{id}')
+@router.post('/{id}')
 async def update_Node(request: Request, id: int, name: str = Form(),  location: str = Form(), field_sensor: str = Form(), id_hardware_node: str = Form(), id_hardware_sensor: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)

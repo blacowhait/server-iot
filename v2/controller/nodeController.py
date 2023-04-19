@@ -5,6 +5,7 @@ from model.account import Account
 from database.db import get_db
 from sqlalchemy.orm import Session
 from model.node import Node
+from model.hardware import Hardware
 from settings import get_settings
 from pydantic import BaseModel
 
@@ -38,7 +39,7 @@ async def get_all_Node(id: int, db: Session = Depends(get_db), akun : Account = 
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
   
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     id_hardware_sensor = [int(_) for _ in form_data.id_hardware_sensor.split(',')]
     field_sensor = [_ for _ in form_data.field_sensor.split(',')]
@@ -48,6 +49,11 @@ async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : A
             detail="len of array must same!",
         )
     if akun:
+        for i in id_hardware_sensor:
+            if await Hardware.check(i):
+                continue
+            else:
+                return JSONResponse({"message":f"This hardware type is not sensor! id = {i}"}, status_code=400)
         if await Node.create(form_data.name, form_data.location, field_sensor, form_data.id_hardware_node, id_hardware_sensor, akun.id):
             return JSONResponse({"message":"Success add new node!"}, status_code=201)
         else:
@@ -58,11 +64,16 @@ async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : A
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
 
-@router.put('/add/{id}')
+@router.put('/{id}')
 async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     id_hardware_sensor = [int(_) for _ in form_data.id_hardware_sensor.split(',')]
     field_sensor = [_ for _ in form_data.field_sensor.split(',')]
     if akun:
+        for i in id_hardware_sensor:
+            if await Hardware.check(i):
+                continue
+            else:
+                return JSONResponse({"message":f"This hardware type is not sensor! id = {i}"}, status_code=400)
         if await Node.update(id, form_data.name, form_data.location, field_sensor, form_data.id_hardware_node, id_hardware_sensor):
             return JSONResponse({"message":f"Success update node, id = {id}!"}, status_code=201)
         else:

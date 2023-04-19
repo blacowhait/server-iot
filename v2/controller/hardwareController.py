@@ -36,7 +36,7 @@ async def get_hardware(id: int, db: Session = Depends(get_db), akun : Account = 
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
 
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_hw, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if akun.is_admin:
@@ -52,7 +52,7 @@ async def create(form_data: form_add_hw, db: Session = Depends(get_db), akun : A
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
 
-@router.put('/add/{id}')
+@router.put('/{id}')
 async def update_hardware(id : int, form_data: form_add_hw, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if akun.is_admin:

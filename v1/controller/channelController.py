@@ -20,7 +20,7 @@ class form_add_channel(BaseModel):
     value: str
     id_sensor: str
 
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_channel, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if Sensor.check(form_data.id_sensor, akun.id, db):

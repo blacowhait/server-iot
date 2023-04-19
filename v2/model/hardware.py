@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database.db import Hardware_DB
+from database.conn_pool import database_instance
 
 # ------------------------ Schema
 
@@ -33,6 +34,13 @@ class Hardware():
         db.close()
         return True
     
+    async def check(id: int):
+        res = await database_instance.execute(query=f"select * from hardware where id='{id}' and type='sensor';")
+        if res == 'SELECT 1':
+            return True
+        else:
+            return False
+
     def get_all(db: Session):
         items = db.query(Hardware_DB).all()
         db.close()

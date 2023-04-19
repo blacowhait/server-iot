@@ -15,7 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 class Account_DB(Base):
-    __tablename__ = 'account'
+    __tablename__ = 'user_person'
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     hashed_password = Column(String)
@@ -41,7 +41,7 @@ class Node_DB(Base):
     name = Column(String)
     location = Column(String)
     id_hardware_node = Column(Integer, ForeignKey("hardware.id"))
-    id_user = Column(Integer, ForeignKey("account.id"))
+    id_user = Column(Integer, ForeignKey("user_person.id"))
 
 class Sensor_DB(Base):
     __tablename__ = 'sensor'

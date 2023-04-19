@@ -36,7 +36,7 @@ async def get_all_Node(id: int, db: Session = Depends(get_db), akun : Account = 
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
   
-@router.post('/add')
+@router.post('/')
 async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if await Node.create(form_data.name, form_data.location, form_data.id_hardware_node, akun.id):
@@ -49,12 +49,10 @@ async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : A
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
 
-@router.put('/add/{id}')
+@router.put('/{id}')
 async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
-    id_hardware_sensor = [int(_) for _ in form_data.id_hardware_sensor.split(',')]
-    field_sensor = [_ for _ in form_data.field_sensor.split(',')]
     if akun:
-        if await Node.update(id, form_data.name, form_data.location, field_sensor, form_data.id_hardware_node, id_hardware_sensor):
+        if await Node.update(id, form_data.name, form_data.location, form_data.id_hardware_node):
             return JSONResponse({"message":f"Success update node, id = {id}!"}, status_code=201)
         else:
             raise HTTPException(

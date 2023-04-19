@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Update new hardware</h2>
-<form action="../../../../../hardware/add/{{update_id}}" method="post">
+<form action="../../../../../hardware/{{update_id}}" method="post">
     <div class="container">
         <label for="name"><b>Hardware name</b></label><br>
         <input type="text" placeholder="Enter hardware name" name="name" required><br>

@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Update new node</h2>
-<form action="../../../../../node/add/{{update_id}}" method="post">
+<form action="../../../../../node/{{update_id}}" method="post">
     <div class="container">
         <label for="name"><b>node name</b></label><br>
         <input type="text" placeholder="Enter node name" name="name" required><br>
