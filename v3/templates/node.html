@@ -36,7 +36,7 @@
     </tr>
     {% for data in datas %}
 <tr>
-    <td>{{ data.id }} <a href="../../../../../node/delete/{{data.id}}" onClick="return confirm('Are you sure?')">❌</a><a href="../../../../../node/update/{{data.id}}"> ➕</a><a href="../../../../../feed/detail/{{data.id}}">  📊</a></td>
+    <td>{{ data.id }} <a href="../../../../../node/{{data.id}}" onClick="return confirm('Are you sure?')">❌</a><a href="../../../../../node/update/{{data.id}}"> ➕</a><a href="../../../../../feed/detail/{{data.id}}">  📊</a></td>
     <td>{{ data.name }}</td>
     <td>{{ data.location }}</td>
     <td>{{ data.id_user }}</td>

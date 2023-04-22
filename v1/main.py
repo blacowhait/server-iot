@@ -13,6 +13,8 @@ from settings import get_settings
 from json import dumps
 
 settings = get_settings()
+database_instance = database_instance()
+
 app = FastAPI(
     title=settings.APP_NAME,
     description=settings.DESCRIPTION,

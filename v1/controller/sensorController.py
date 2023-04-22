@@ -61,7 +61,7 @@ async def update(id: int, form_data: form_add_sensor, akun: Account = Depends(ge
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
     
-@router.delete('/delete/{id}')
+@router.delete('/{id}')
 async def delete(id: int, db: Session = Depends(get_db), akun: Account = Depends(get_current_user)):
     if akun:
         if Sensor.check(id, akun.id, db):

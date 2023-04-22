@@ -12,6 +12,8 @@ from settings import get_settings
 from fastapi.templating import Jinja2Templates
 
 settings = get_settings()
+database_instance = database_instance()
+
 app = FastAPI(
     title=settings.APP_NAME,
     description=settings.DESCRIPTION,

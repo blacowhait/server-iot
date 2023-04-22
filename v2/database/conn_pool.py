@@ -1,5 +1,6 @@
 import asyncpg
 from settings import get_settings
+from functools import lru_cache
 
 settings = get_settings()
 class Database:
@@ -18,8 +19,9 @@ class Database:
         if not self._connection_pool:
             try:
                 self._connection_pool = await asyncpg.create_pool(
-                    min_size=1,
+                    min_size=10,
                     max_size=10,
+                    max_queries=50000,
                     command_timeout=60,
                     host=self.host,
                     port=self.port,
@@ -59,4 +61,6 @@ class Database:
             finally:
                 await self._connection_pool.release(self.con)
                 
-database_instance = Database()
+@lru_cache()
+def database_instance():
+    return Database()

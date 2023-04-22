@@ -3,7 +3,7 @@ type=$2
 
 if [ "$command" == "init" ]; then
     if [ "$type" == "docker" ]; then
-        docker run --name postgre --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e PGDATA=/var/lib/postgresql/data/pgdata -v /tmp:/var/lib/postgresql/data -p 54321:5432 -it postgres:14.1-alpine &
+        docker run --name postgre --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e PGDATA=/var/lib/postgresql/data/pgdata -v /tmp:/var/lib/postgresql/data -p 54321:5432 -it postgres:14.1-alpine
     elif [ "$type" == "psql" ]; then
         sudo apt update
         sudo apt install postgresql postgresql-contrib

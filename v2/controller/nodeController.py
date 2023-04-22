@@ -84,7 +84,7 @@ async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
     
-@router.delete('/delete/{id}')
+@router.delete('/{id}')
 async def delete_Node(id: int, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if Node.delete(id, akun.id, db):

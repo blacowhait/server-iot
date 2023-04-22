@@ -15,7 +15,7 @@ import jwt
 import os
 import binascii
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 settings = get_settings()
 router = APIRouter(
     prefix="/auth",
@@ -28,6 +28,8 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: str | None = None
+    is_admin: bool | None = None
+    id: int | None = None
 
 class form_data(BaseModel):
     email: str
@@ -65,15 +67,14 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db : S
     try:
         payload = jwt.decode(token, settings.SECRET, algorithms=[settings.ALGORITHM])
         email: str = payload.get("sub")
+        is_admin: bool = payload.get("is_admin")
+        id: int = payload.get("id")
         if email is None:
             raise credentials_exception
-        token_data = TokenData(email=email)
+        token_data = TokenData(email=email, is_admin=is_admin, id=id)
     except JWTError:
         raise credentials_exception
-    user = Account.get_user(token_data.email, db)
-    if user is None:
-        raise credentials_exception
-    return user
+    return token_data
 
 @router.get("/activation/")
 async def verif_email(email: str, token: str, response: Response, db: Session = Depends(get_db)):
@@ -110,21 +111,6 @@ async def forgot(email: Email, db: Session = Depends(get_db)):
         await send_forgot_password_email(email.email, new_pass)
         return JSONResponse({"msg":"Check Your Email"}, status_code=200)
 
-@router.post("/token", response_model=Token)
-async def login_for_access_token(form_data: form_data, db : Session = Depends(get_db)):
-    user = Account.check_pass(form_data.email, form_data.password, db)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
 @router.post("/login", response_model=Token)
 async def login(form_data: form_data, db : Session = Depends(get_db)):
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)  
@@ -136,7 +122,7 @@ async def login(form_data: form_data, db : Session = Depends(get_db)):
     if Account.check_pass(email, password, db):
         akun = Account.get_user(email, db)
         access_token = create_access_token(
-            data={"sub": akun.email}, expires_delta=access_token_expires
+            data={"sub": akun.email, "is_admin": akun.is_admin, "id": akun.id}, expires_delta=access_token_expires
         )
         return {"access_token": access_token, "token_type": "bearer"}
     else:

@@ -12,8 +12,8 @@ from pydantic import BaseModel
 settings = get_settings()
 
 router = APIRouter(
-    prefix="/feed",
-    tags=['feed']
+    prefix="/channel",
+    tags=['channel']
 )
 
 class form_add_feed(BaseModel):

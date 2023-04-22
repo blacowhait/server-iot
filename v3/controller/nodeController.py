@@ -74,8 +74,8 @@ async def update_Node(request: Request, id: int, name: str = Form(),  location: 
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
     
-# @router.delete('/delete/{id}')
-@router.get('/delete/{id}')
+# @router.delete('/{id}')
+@router.get('/{id}')
 async def delete_Node(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)

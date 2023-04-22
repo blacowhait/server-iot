@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from database.db import Feed_DB
 from database.conn_pool import database_instance
 
+database_instance = database_instance()
+
 # ------------------------ Schema
 
 class FeedBase(BaseModel):

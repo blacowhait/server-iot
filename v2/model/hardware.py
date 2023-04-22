@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from database.db import Hardware_DB
 from database.conn_pool import database_instance
 
+database_instance = database_instance()
+
 # ------------------------ Schema
 
 class HardwareBase(BaseModel):

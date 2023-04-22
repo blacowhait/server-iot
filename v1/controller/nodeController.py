@@ -37,8 +37,9 @@ async def get_all_Node(id: int, db: Session = Depends(get_db), akun : Account = 
         return JSONResponse({"message":"Login First"}, status_code=401)
   
 @router.post('/')
-async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+async def create(form_data: form_add_nd, akun : Account = Depends(get_current_user)):
     if akun:
+        print(akun)
         if await Node.create(form_data.name, form_data.location, form_data.id_hardware_node, akun.id):
             return JSONResponse({"message":"Success add new node!"}, status_code=201)
         else:
@@ -50,7 +51,7 @@ async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : A
         return JSONResponse({"message":"Login First"}, status_code=401)
 
 @router.put('/{id}')
-async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+async def update_Node(id: int, form_data: form_add_nd, akun : Account = Depends(get_current_user)):
     if akun:
         if await Node.update(id, form_data.name, form_data.location, form_data.id_hardware_node):
             return JSONResponse({"message":f"Success update node, id = {id}!"}, status_code=201)
@@ -62,7 +63,7 @@ async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
     
-@router.delete('/delete/{id}')
+@router.delete('/{id}')
 async def delete_Node(id: int, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
         if Node.delete(id, akun.id, db):
