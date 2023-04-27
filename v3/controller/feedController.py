@@ -12,7 +12,7 @@ settings = get_settings()
 templates = Jinja2Templates(directory="./templates")
 
 router = APIRouter(
-    prefix="/feed",
+    prefix="/channel",
     tags=['feed']
 )
     
@@ -26,7 +26,7 @@ async def create(request: Request, value: str = Form(),  id_node: str = Form(), 
     if akun:
         if len_node == len(value):
             if await Feed.create(id_node, value):
-                return RedirectResponse("/feed", status_code=status.HTTP_303_SEE_OTHER)
+                return RedirectResponse("/channel", status_code=status.HTTP_303_SEE_OTHER)
             else:
                 raise HTTPException(
                     status_code = status.HTTP_400_BAD_REQUEST,
