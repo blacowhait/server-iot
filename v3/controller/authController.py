@@ -10,6 +10,7 @@ from controller.emailController import send_verification_email, send_forgot_pass
 import jwt
 import os
 import binascii
+from pydantic import BaseModel
 templates = Jinja2Templates(directory="./templates")
 
 settings = get_settings()
@@ -17,6 +18,11 @@ router = APIRouter(
     prefix="/auth",
     tags=['auth']
 )
+
+class TokenData(BaseModel):
+    email: str | None = None
+    is_admin: bool | None = None
+    id: int | None = None
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -38,8 +44,10 @@ async def cookie_checker(token : str, db: Session):
                 headers={"WWW-Authenticate": "Bearer"},
             )
     eml: str = auth.get("sub")
-    user = Account.get_user(eml, db)
-    return user # || 1 = 1
+    is_admin: bool = auth.get("is_admin")
+    id: int = auth.get("id")
+    token_data = TokenData(email=eml, is_admin=is_admin, id=id)
+    return token_data # || 1 = 1
 
 @router.get("/activation/")
 async def verif_email(email: str, token: str, response: Response, db: Session = Depends(get_db)):
@@ -84,7 +92,7 @@ async def login(response: Response, password: str = Form(), email: str = Form(),
     if Account.check_pass(email, password, db):
         akun = Account.get_user(email, db)
         access_token = create_access_token(
-            data={"sub": akun.email}, expires_delta=access_token_expires
+            data={"sub": akun.email, "id": akun.id, "is_admin": akun.is_admin}, expires_delta=access_token_expires
         )
         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
         response.set_cookie(key='user', value=access_token)

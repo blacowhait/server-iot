@@ -27,7 +27,7 @@
     </tr>
     {% for data in datas %}
 <tr>
-    <td>{{ data.id }} <a href="../../../../../hardware/{{data.id}}" onClick="return confirm('Are you sure?')">❌</a><a href="../../../../../hardware/update/{{data.id}}"> ➕</a></td>
+    <td>{{ data.id }} <a href="../../../../../hardware/delete/{{data.id}}" onClick="return confirm('Are you sure?')">❌</a><a href="../../../../../hardware/update/{{data.id}}"> ➕</a></td>
     <td>{{ data.name }}</td>
     <td>{{ data.type }}</td>
     <td>{{ data.description }}</td>

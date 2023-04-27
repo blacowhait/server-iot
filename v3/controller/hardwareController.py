@@ -30,13 +30,16 @@ async def create(request: Request, name: str = Form(),  type: str = Form(),  des
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)
     if akun:
-        if Hardware.create(name, type, desc, db):
-            return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+        if akun.is_admin:
+            if Hardware.create(name, type, desc, db):
+                return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+            else:
+                raise HTTPException(
+                    status_code = status.HTTP_400_BAD_REQUEST,
+                    detail="error",
+                )
         else:
-            raise HTTPException(
-                status_code = status.HTTP_400_BAD_REQUEST,
-                detail="error",
-            )
+            return templates.TemplateResponse("auth.html", {"request": request, "message": "You are not an Admin, Please login using admin account"})
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
 
@@ -55,28 +58,34 @@ async def update_hardware(request: Request, id: int, name: str = Form(),  type: 
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)
     if akun:
-        if Hardware.update(id, name, type, desc, db):
-            return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+        if akun.is_admin:
+            if Hardware.update(id, name, type, desc, db):
+                return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+            else:
+                raise HTTPException(
+                    status_code = status.HTTP_400_BAD_REQUEST,
+                    detail="error",
+                )
         else:
-            raise HTTPException(
-                status_code = status.HTTP_400_BAD_REQUEST,
-                detail="error",
-            )
+            return templates.TemplateResponse("auth.html", {"request": request, "message": "You are not an Admin, Please login using admin account"})
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
     
 # @router.delete('/{id}')
-@router.get('/{id}')
+@router.get('/delete/{id}')
 async def delete_hardware(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     akun = await cookie_checker(kue, db)
     if akun:
-        if Hardware.delete(id, db):
-            return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+        if akun.is_admin:
+            if Hardware.delete(id, db):
+                return RedirectResponse("/hardware", status_code=status.HTTP_303_SEE_OTHER)
+            else:
+                raise HTTPException(
+                    status_code = status.HTTP_400_BAD_REQUEST,
+                    detail="error",
+                )
         else:
-            raise HTTPException(
-                status_code = status.HTTP_400_BAD_REQUEST,
-                detail="error",
-            )
+            return templates.TemplateResponse("auth.html", {"request": request, "message": "You are not an Admin, Please login using admin account"})
     else:
         return templates.TemplateResponse("auth.html", {"request": request})

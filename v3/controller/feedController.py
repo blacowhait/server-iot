@@ -40,6 +40,15 @@ async def create(request: Request, value: str = Form(),  id_node: str = Form(), 
     else:
         return templates.TemplateResponse("auth.html", {"request": request})
     
+@router.get('/')
+async def get_form(request: Request, db: Session = Depends(get_db)):
+    kue = request.cookies.get('user')
+    akun = await cookie_checker(kue, db)
+    if akun:
+        return templates.TemplateResponse("feed.html", {"request": request})
+    else:
+        return templates.TemplateResponse("auth.html", {"request": request})
+
 @router.get('/detail/{id}')
 async def get_stats(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
