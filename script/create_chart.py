@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 # Configuration for managing the chart
-COLOR = ["cyan", "purple", "olive", "grey", "orange"]
+COLOR = ["cyan", "purple", "olive", "grey", "orange", "tomato"]
 HATCH = [None, "|||||", "/////", "\\\\\\\\\\", "+++", "---"]
 
 # Exclude some endpoints from the chart
@@ -37,8 +37,24 @@ INCLUDE_ENDPOINT_ALL = ['GET /node', 'GET /node/1', 'PUT /node/1', 'POST /channe
 ENDPOINT_INCLUDE_VERSION = {
     "v1": INCLUDE_ENDPOINT_ALL,
     "v2": INCLUDE_ENDPOINT_ALL,
-    "v3": ['GET /node']
+    "v3": ['GET /node'],
+    "pool": ['PUT /node/1', 'POST /channel/'],
+    "banding": ['GET /node/', 'GET /node/1', 'PUT /node/1', 'POST /channel/']
 }
+
+POOL = [
+    "70_200k",
+    "100_500k",
+    "125_600k",
+    "135_700k",
+    "150_750k",
+    "200_1000k"
+]
+
+BANDING = [
+    "full_endpoint_125_600k",
+    "konfigurasi_awal"
+]
 
 V1_SERVER = [
     "hanin",
@@ -80,6 +96,8 @@ SERVER = {
     "v1": V1_SERVER,
     "v2": V2_SERVER,
     "v3": V3_SERVER,
+    "pool" : POOL,
+    "banding" : BANDING
 }
 
 LABEL = {
@@ -275,7 +293,10 @@ def create_average_chart_siege_and_metric(df_bar: pd.DataFrame, df_line: pd.Data
 def create_chart_metric_with_siege(input_file):
     metric_dict = get_metric_per_endpoint(input_file)
     siege_dict = get_dict_from_siege(input_file)
-    version = ["v1", "v2", "v3"]
+    print(metric_dict)
+    # version = ["v1", "v2", "v3"]
+    # version = ["pool"]
+    version = ["banding"]
     font_size: int = 6 
     fmt: str = "%.1f"
     for server_list in version:

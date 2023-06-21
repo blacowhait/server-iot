@@ -62,7 +62,9 @@ def get_server_host_id(server_name):
 
 def get_start_and_end_per_endpoint_from_server_data(server_data):
     server_data.sort_values(by=["epoch"])
-    endpoint = ["GET /node","GET /node/1","PUT /node/1","POST /channel"]
+    # endpoint = ["GET /node","GET /node/1","PUT /node/1","POST /channel"]
+    # endpoint = ["PUT /node/1","POST /channel/"] # for pool configuration checking
+    endpoint = ["GET /node/","GET /node/1","PUT /node/1","POST /channel/"] # banding
     endpoint_dict = dict()
     endpoint_index = 0
     for i in range(0, len(server_data)):

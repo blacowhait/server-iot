@@ -1,6 +1,7 @@
 # sudo apt-get install libpq-dev
 # sudo apt install python3-pip
 # sudo apt install redis-server
+# sudo apt install postgresql postgresql-contrib -y
 
 fastapi[all]
 fastapi-cache2[redis]
@@ -12,3 +13,4 @@ python-jose
 passlib
 sqlalchemy
 gunicorn
+jwt
