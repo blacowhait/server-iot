@@ -15,6 +15,17 @@ class Database:
         self._connection_pool = None
         self.con = None
 
+    async def jsonify(self, records):
+        """
+        Parse asyncpg record response into JSON format
+        """
+        list_return = []
+        for r in records:
+            itens = r.items()
+            list_return.append({i[0]: i[1].rstrip() if type(
+                i[1]) == str else i[1] for i in itens})
+        return list_return
+
     async def connect(self):
         if not self._connection_pool:
             try:
@@ -22,7 +33,6 @@ class Database:
                     min_size=10,
                     max_size=10,
                     max_queries=50000,
-                    command_timeout=60,
                     host=self.host,
                     port=self.port,
                     user=self.user,
@@ -40,8 +50,8 @@ class Database:
             self.con = await self._connection_pool.acquire()
             try:
                 result = await self.con.fetch(query)
-                print("Results", result)
-                return result
+                print("Results Succes for",query)
+                return await self.jsonify(result)
             except Exception as e:
                 print(e)
             finally:

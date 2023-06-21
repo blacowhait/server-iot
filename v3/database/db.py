@@ -16,40 +16,36 @@ Base = declarative_base()
 
 class Account_DB(Base):
     __tablename__ = 'user_person'
-    id = Column(Integer, primary_key=True, index=True)
+    id_user = Column(Integer, primary_key=True, index=True)
     username = Column(String)
-    hashed_password = Column(String)
+    password = Column(String)
     email = Column(String)
-    is_admin = Column(Boolean, default=False)
-    activated = Column(Boolean, default=False)
-    token = Column(String)
-    # image = Column(String, default="example.svg")
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-    time_updated = Column(DateTime( 
-        timezone=True), default=func.now(), onupdate=func.current_timestamp())
+    isadmin = Column(Boolean, default=False)
+    status = Column(Boolean, default=False)
     
 class Hardware_DB(Base):
     __tablename__ = 'hardware'
-    id = Column(Integer, primary_key=True, index=True)
+    id_hardware = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     type = Column(String)
     description = Column(String)
 
 class Node_DB(Base):
     __tablename__ = 'node'
-    id = Column(Integer, primary_key=True, index=True)
+    id_node = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     location = Column(String)
     field_sensor = Column(ARRAY(String))
     id_hardware_node = Column(Integer)
     id_user = Column(Integer, ForeignKey("user_person.id"))
     id_hardware_sensor = Column(ARRAY(Integer))
+    is_public = Column(Boolean, default=False)
 
 class Feed_DB(Base):
     __tablename__ = 'feed'
-    id = Column(Integer, primary_key=True, index=True)
+    # id = Column(Integer, primary_key=True, index=True)
     value = Column(ARRAY(Float))
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    time = Column(DateTime(timezone=True), server_default=func.now())
     id_node = Column(Integer, ForeignKey("node.id"))
 
 # Dependency

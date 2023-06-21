@@ -8,6 +8,11 @@ from model.node import Node
 from model.hardware import Hardware
 from settings import get_settings
 from pydantic import BaseModel
+from fastapi_cache.decorator import cache
+
+@cache()
+async def get_cache():
+    return 1
 
 settings = get_settings()
 
@@ -24,23 +29,25 @@ class form_add_nd(BaseModel):
     id_hardware_sensor: str
 
 @router.get('/')
-async def get_all_Node(db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+@cache(expire=300)
+async def get_all_Node(akun : Account = Depends(get_current_user)):
     if akun:
-        list_Node = Node.get_all(akun.id,db)
+        list_Node = await Node.get_all()
         return {"List Node":list_Node}
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
 
 @router.get('/{id}')
-async def get_all_Node(id: int, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+@cache(expire=300)
+async def get_all_Node(id: int, akun : Account = Depends(get_current_user)):
     if akun:
-        list_Node = Node.get(id, akun.id, db)
+        list_Node = await Node.get(id)
         return {"Detail Node":list_Node}
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)
   
 @router.post('/')
-async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+async def create(form_data: form_add_nd, akun : Account = Depends(get_current_user)):
     id_hardware_sensor = [int(_) for _ in form_data.id_hardware_sensor.split(',')]
     field_sensor = [_ for _ in form_data.field_sensor.split(',')]
     if not len(id_hardware_sensor) == len(field_sensor):
@@ -65,7 +72,7 @@ async def create(form_data: form_add_nd, db: Session = Depends(get_db), akun : A
         return JSONResponse({"message":"Login First"}, status_code=401)
 
 @router.put('/{id}')
-async def update_Node(id: int, form_data: form_add_nd, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+async def update_Node(id: int, form_data: form_add_nd, akun : Account = Depends(get_current_user)):
     id_hardware_sensor = [int(_) for _ in form_data.id_hardware_sensor.split(',')]
     field_sensor = [_ for _ in form_data.field_sensor.split(',')]
     if akun:

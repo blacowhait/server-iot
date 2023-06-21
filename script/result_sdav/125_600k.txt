@@ -1,0 +1,890 @@
+TYPE: greyv2
+Host: 10.104.0.2:1337
+Test time: 60s
+Sleep time: 30
+Timeout: 600
+Iteration: 5
+Concurency: 200 400 600 800 1000
+Auth method: jwt
+Username: admin
+Password: admin
+DROP TABLE
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COPY 999
+COPY 20
+COPY 100
+COPY 2
+ setval 
+--------
+     20
+(1 row)
+
+ setval 
+--------
+    100
+(1 row)
+
+ setval 
+--------
+      2
+(1 row)
+
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+Success auth Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlzYWRtaW4iOnRydWUsImlkIjoxLCJleHAiOjE2ODcwMDY1MDV9.jWq1ljU2Jfld1fNEqJNK1twANUtgrOJw9mlwXf0nS9M
+Testing connection...
+Connection test success
+Sleep 5
+>>>>>>>> started in 1686646510
+Tue, 13 Jun 2023 15:55:10 +0700 (1686646510)
+Tue, 13 Jun 2023 15:55:10 +0700 (1686646510)
+[ PUT /node/1 200][1]
+{	"transactions":			       61919,
+	"availability":			      100.00,
+	"elapsed_time":			       59.14,
+	"data_transferred":		        2.95,
+	"response_time":		        0.19,
+	"transaction_rate":		     1046.99,
+	"throughput":			        0.05,
+	"concurrency":			      198.73,
+	"successful_transactions":	       61919,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.06,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 15:56:45 +0700 (1686646605)
+[ PUT /node/1 200][2]
+{	"transactions":			       71541,
+	"availability":			      100.00,
+	"elapsed_time":			       60.16,
+	"data_transferred":		        3.41,
+	"response_time":		        0.17,
+	"transaction_rate":		     1189.18,
+	"throughput":			        0.06,
+	"concurrency":			      198.27,
+	"successful_transactions":	       71542,
+	"failed_transactions":		           0,
+	"longest_transaction":		        0.90,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 15:58:19 +0700 (1686646699)
+[ PUT /node/1 200][3]
+{	"transactions":			       53881,
+	"availability":			      100.00,
+	"elapsed_time":			       59.25,
+	"data_transferred":		        2.57,
+	"response_time":		        0.22,
+	"transaction_rate":		      909.38,
+	"throughput":			        0.04,
+	"concurrency":			      197.75,
+	"successful_transactions":	       53881,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.70,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 15:59:54 +0700 (1686646794)
+[ PUT /node/1 200][4]
+{	"transactions":			       52916,
+	"availability":			      100.00,
+	"elapsed_time":			       60.06,
+	"data_transferred":		        2.52,
+	"response_time":		        0.23,
+	"transaction_rate":		      881.05,
+	"throughput":			        0.04,
+	"concurrency":			      198.39,
+	"successful_transactions":	       52916,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.70,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:01:29 +0700 (1686646889)
+[ PUT /node/1 200][5]
+{	"transactions":			       45241,
+	"availability":			      100.00,
+	"elapsed_time":			       60.09,
+	"data_transferred":		        2.16,
+	"response_time":		        0.26,
+	"transaction_rate":		      752.89,
+	"throughput":			        0.04,
+	"concurrency":			      198.30,
+	"successful_transactions":	       45241,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.27,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:03:03 +0700 (1686646983)
+Tue, 13 Jun 2023 16:03:03 +0700 (1686646983)
+[ PUT /node/1 400][1]
+{	"transactions":			       52639,
+	"availability":			      100.00,
+	"elapsed_time":			       59.83,
+	"data_transferred":		        2.51,
+	"response_time":		        0.45,
+	"transaction_rate":		      879.81,
+	"throughput":			        0.04,
+	"concurrency":			      391.73,
+	"successful_transactions":	       52639,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.91,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:04:38 +0700 (1686647078)
+[ PUT /node/1 400][2]
+{	"transactions":			       61504,
+	"availability":			      100.00,
+	"elapsed_time":			       59.85,
+	"data_transferred":		        2.93,
+	"response_time":		        0.38,
+	"transaction_rate":		     1027.64,
+	"throughput":			        0.05,
+	"concurrency":			      393.67,
+	"successful_transactions":	       61504,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.78,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:06:12 +0700 (1686647172)
+[ PUT /node/1 400][3]
+{	"transactions":			       62767,
+	"availability":			      100.00,
+	"elapsed_time":			       59.35,
+	"data_transferred":		        2.99,
+	"response_time":		        0.37,
+	"transaction_rate":		     1057.57,
+	"throughput":			        0.05,
+	"concurrency":			      393.90,
+	"successful_transactions":	       62767,
+	"failed_transactions":		           0,
+	"longest_transaction":		        2.29,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:07:46 +0700 (1686647266)
+[ PUT /node/1 400][4]
+{	"transactions":			       46608,
+	"availability":			      100.00,
+	"elapsed_time":			       59.93,
+	"data_transferred":		        2.22,
+	"response_time":		        0.51,
+	"transaction_rate":		      777.71,
+	"throughput":			        0.04,
+	"concurrency":			      393.32,
+	"successful_transactions":	       46608,
+	"failed_transactions":		           0,
+	"longest_transaction":		        2.00,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:09:20 +0700 (1686647360)
+[ PUT /node/1 400][5]
+{	"transactions":			       45022,
+	"availability":			      100.00,
+	"elapsed_time":			       59.51,
+	"data_transferred":		        2.15,
+	"response_time":		        0.52,
+	"transaction_rate":		      756.55,
+	"throughput":			        0.04,
+	"concurrency":			      392.21,
+	"successful_transactions":	       45022,
+	"failed_transactions":		           0,
+	"longest_transaction":		        2.09,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:10:55 +0700 (1686647455)
+Tue, 13 Jun 2023 16:10:55 +0700 (1686647455)
+[ PUT /node/1 600][1]
+{	"transactions":			       47686,
+	"availability":			      100.00,
+	"elapsed_time":			       59.58,
+	"data_transferred":		        2.27,
+	"response_time":		        0.73,
+	"transaction_rate":		      800.37,
+	"throughput":			        0.04,
+	"concurrency":			      586.55,
+	"successful_transactions":	       47686,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.50,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:12:29 +0700 (1686647549)
+[ PUT /node/1 600][2]
+{	"transactions":			       58241,
+	"availability":			      100.00,
+	"elapsed_time":			       59.81,
+	"data_transferred":		        2.78,
+	"response_time":		        0.60,
+	"transaction_rate":		      973.77,
+	"throughput":			        0.05,
+	"concurrency":			      583.24,
+	"successful_transactions":	       58241,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.29,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:14:04 +0700 (1686647644)
+[ PUT /node/1 600][3]
+{	"transactions":			       47640,
+	"availability":			      100.00,
+	"elapsed_time":			       60.40,
+	"data_transferred":		        2.27,
+	"response_time":		        0.74,
+	"transaction_rate":		      788.74,
+	"throughput":			        0.04,
+	"concurrency":			      582.08,
+	"successful_transactions":	       47640,
+	"failed_transactions":		           0,
+	"longest_transaction":		        2.91,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:15:39 +0700 (1686647739)
+[ PUT /node/1 600][4]
+{	"transactions":			       46945,
+	"availability":			      100.00,
+	"elapsed_time":			       60.03,
+	"data_transferred":		        2.24,
+	"response_time":		        0.75,
+	"transaction_rate":		      782.03,
+	"throughput":			        0.04,
+	"concurrency":			      587.22,
+	"successful_transactions":	       46945,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.38,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:17:13 +0700 (1686647833)
+[ PUT /node/1 600][5]
+{	"transactions":			       49159,
+	"availability":			      100.00,
+	"elapsed_time":			       59.89,
+	"data_transferred":		        2.34,
+	"response_time":		        0.71,
+	"transaction_rate":		      820.82,
+	"throughput":			        0.04,
+	"concurrency":			      583.53,
+	"successful_transactions":	       49159,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.52,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:18:48 +0700 (1686647928)
+Tue, 13 Jun 2023 16:18:48 +0700 (1686647928)
+[ PUT /node/1 800][1]
+{	"transactions":			       49042,
+	"availability":			      100.00,
+	"elapsed_time":			       60.62,
+	"data_transferred":		        2.34,
+	"response_time":		        0.96,
+	"transaction_rate":		      809.01,
+	"throughput":			        0.04,
+	"concurrency":			      773.67,
+	"successful_transactions":	       49042,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.44,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:20:23 +0700 (1686648023)
+[ PUT /node/1 800][2]
+{	"transactions":			       49654,
+	"availability":			      100.00,
+	"elapsed_time":			       60.49,
+	"data_transferred":		        2.37,
+	"response_time":		        0.94,
+	"transaction_rate":		      820.86,
+	"throughput":			        0.04,
+	"concurrency":			      771.67,
+	"successful_transactions":	       49655,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.00,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:21:58 +0700 (1686648118)
+[ PUT /node/1 800][3]
+{	"transactions":			       49143,
+	"availability":			      100.00,
+	"elapsed_time":			       60.44,
+	"data_transferred":		        2.34,
+	"response_time":		        0.96,
+	"transaction_rate":		      813.09,
+	"throughput":			        0.04,
+	"concurrency":			      776.82,
+	"successful_transactions":	       49143,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.26,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:23:33 +0700 (1686648213)
+[ PUT /node/1 800][4]
+{	"transactions":			       49263,
+	"availability":			      100.00,
+	"elapsed_time":			       60.56,
+	"data_transferred":		        2.35,
+	"response_time":		        0.95,
+	"transaction_rate":		      813.46,
+	"throughput":			        0.04,
+	"concurrency":			      773.71,
+	"successful_transactions":	       49263,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.41,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:25:08 +0700 (1686648308)
+[ PUT /node/1 800][5]
+{	"transactions":			       48493,
+	"availability":			      100.00,
+	"elapsed_time":			       60.15,
+	"data_transferred":		        2.31,
+	"response_time":		        0.96,
+	"transaction_rate":		      806.20,
+	"throughput":			        0.04,
+	"concurrency":			      777.21,
+	"successful_transactions":	       48493,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.18,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:26:43 +0700 (1686648403)
+Tue, 13 Jun 2023 16:26:43 +0700 (1686648403)
+[ PUT /node/1 1000][1]
+{	"transactions":			       47724,
+	"availability":			      100.00,
+	"elapsed_time":			       60.67,
+	"data_transferred":		        2.28,
+	"response_time":		        1.21,
+	"transaction_rate":		      786.62,
+	"throughput":			        0.04,
+	"concurrency":			      953.97,
+	"successful_transactions":	       47724,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.86,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:28:18 +0700 (1686648498)
+[ PUT /node/1 1000][2]
+{	"transactions":			       57978,
+	"availability":			      100.00,
+	"elapsed_time":			       60.44,
+	"data_transferred":		        2.76,
+	"response_time":		        1.00,
+	"transaction_rate":		      959.27,
+	"throughput":			        0.05,
+	"concurrency":			      957.89,
+	"successful_transactions":	       57978,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.27,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:29:53 +0700 (1686648593)
+[ PUT /node/1 1000][3]
+{	"transactions":			       48305,
+	"availability":			      100.00,
+	"elapsed_time":			       60.04,
+	"data_transferred":		        2.30,
+	"response_time":		        1.19,
+	"transaction_rate":		      804.55,
+	"throughput":			        0.04,
+	"concurrency":			      959.17,
+	"successful_transactions":	       48305,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.05,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:31:28 +0700 (1686648688)
+[ PUT /node/1 1000][4]
+{	"transactions":			       51658,
+	"availability":			      100.00,
+	"elapsed_time":			       60.73,
+	"data_transferred":		        2.46,
+	"response_time":		        1.12,
+	"transaction_rate":		      850.62,
+	"throughput":			        0.04,
+	"concurrency":			      955.82,
+	"successful_transactions":	       51659,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.41,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:33:03 +0700 (1686648783)
+[ PUT /node/1 1000][5]
+{	"transactions":			       54256,
+	"availability":			      100.00,
+	"elapsed_time":			       60.91,
+	"data_transferred":		        2.59,
+	"response_time":		        1.06,
+	"transaction_rate":		      890.76,
+	"throughput":			        0.04,
+	"concurrency":			      944.14,
+	"successful_transactions":	       54256,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.94,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:34:39 +0700 (1686648879)
+Tue, 13 Jun 2023 16:34:39 +0700 (1686648879)
+[ POST /channel/ 200][1]
+{	"transactions":			       46751,
+	"availability":			      100.00,
+	"elapsed_time":			       60.03,
+	"data_transferred":		        4.28,
+	"response_time":		        0.25,
+	"transaction_rate":		      778.79,
+	"throughput":			        0.07,
+	"concurrency":			      198.20,
+	"successful_transactions":	       46751,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.02,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:36:13 +0700 (1686648973)
+[ POST /channel/ 200][2]
+{	"transactions":			       59624,
+	"availability":			      100.00,
+	"elapsed_time":			       59.56,
+	"data_transferred":		        5.46,
+	"response_time":		        0.20,
+	"transaction_rate":		     1001.07,
+	"throughput":			        0.09,
+	"concurrency":			      198.35,
+	"successful_transactions":	       59624,
+	"failed_transactions":		           0,
+	"longest_transaction":		        3.80,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:37:47 +0700 (1686649067)
+[ POST /channel/ 200][3]
+{	"transactions":			       58671,
+	"availability":			      100.00,
+	"elapsed_time":			       59.56,
+	"data_transferred":		        5.37,
+	"response_time":		        0.20,
+	"transaction_rate":		      985.07,
+	"throughput":			        0.09,
+	"concurrency":			      198.10,
+	"successful_transactions":	       58671,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.21,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:39:22 +0700 (1686649162)
+[ POST /channel/ 200][4]
+{	"transactions":			       59884,
+	"availability":			      100.00,
+	"elapsed_time":			       60.15,
+	"data_transferred":		        5.48,
+	"response_time":		        0.20,
+	"transaction_rate":		      995.58,
+	"throughput":			        0.09,
+	"concurrency":			      197.84,
+	"successful_transactions":	       59884,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.22,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:40:57 +0700 (1686649257)
+[ POST /channel/ 200][5]
+{	"transactions":			       46026,
+	"availability":			      100.00,
+	"elapsed_time":			       60.03,
+	"data_transferred":		        4.21,
+	"response_time":		        0.26,
+	"transaction_rate":		      766.72,
+	"throughput":			        0.07,
+	"concurrency":			      198.32,
+	"successful_transactions":	       46026,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.22,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:42:31 +0700 (1686649351)
+Tue, 13 Jun 2023 16:42:32 +0700 (1686649352)
+[ POST /channel/ 400][1]
+{	"transactions":			       47045,
+	"availability":			      100.00,
+	"elapsed_time":			       60.30,
+	"data_transferred":		        4.31,
+	"response_time":		        0.50,
+	"transaction_rate":		      780.18,
+	"throughput":			        0.07,
+	"concurrency":			      393.93,
+	"successful_transactions":	       47045,
+	"failed_transactions":		           0,
+	"longest_transaction":		        4.37,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:44:10 +0700 (1686649450)
+[ POST /channel/ 400][2]
+{	"transactions":			       50949,
+	"availability":			      100.00,
+	"elapsed_time":			       60.15,
+	"data_transferred":		        4.66,
+	"response_time":		        0.46,
+	"transaction_rate":		      847.03,
+	"throughput":			        0.08,
+	"concurrency":			      393.80,
+	"successful_transactions":	       50949,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.61,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:45:44 +0700 (1686649544)
+[ POST /channel/ 400][3]
+{	"transactions":			       50406,
+	"availability":			      100.00,
+	"elapsed_time":			       59.67,
+	"data_transferred":		        4.61,
+	"response_time":		        0.47,
+	"transaction_rate":		      844.75,
+	"throughput":			        0.08,
+	"concurrency":			      394.05,
+	"successful_transactions":	       50406,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.11,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:47:19 +0700 (1686649639)
+[ POST /channel/ 400][4]
+{	"transactions":			       58506,
+	"availability":			      100.00,
+	"elapsed_time":			       60.28,
+	"data_transferred":		        5.36,
+	"response_time":		        0.41,
+	"transaction_rate":		      970.57,
+	"throughput":			        0.09,
+	"concurrency":			      393.24,
+	"successful_transactions":	       58506,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.37,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:48:54 +0700 (1686649734)
+[ POST /channel/ 400][5]
+{	"transactions":			       55870,
+	"availability":			      100.00,
+	"elapsed_time":			       60.17,
+	"data_transferred":		        5.12,
+	"response_time":		        0.42,
+	"transaction_rate":		      928.54,
+	"throughput":			        0.09,
+	"concurrency":			      393.26,
+	"successful_transactions":	       55870,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.59,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:50:29 +0700 (1686649829)
+Tue, 13 Jun 2023 16:50:29 +0700 (1686649829)
+[ POST /channel/ 600][1]
+{	"transactions":			       56278,
+	"availability":			      100.00,
+	"elapsed_time":			       59.92,
+	"data_transferred":		        5.15,
+	"response_time":		        0.62,
+	"transaction_rate":		      939.22,
+	"throughput":			        0.09,
+	"concurrency":			      585.81,
+	"successful_transactions":	       56278,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.34,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:52:04 +0700 (1686649924)
+[ POST /channel/ 600][2]
+{	"transactions":			       49940,
+	"availability":			      100.00,
+	"elapsed_time":			       59.90,
+	"data_transferred":		        4.57,
+	"response_time":		        0.70,
+	"transaction_rate":		      833.72,
+	"throughput":			        0.08,
+	"concurrency":			      584.91,
+	"successful_transactions":	       49940,
+	"failed_transactions":		           0,
+	"longest_transaction":		        6.46,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:53:39 +0700 (1686650019)
+[ POST /channel/ 600][3]
+{	"transactions":			       48627,
+	"availability":			      100.00,
+	"elapsed_time":			       60.10,
+	"data_transferred":		        4.45,
+	"response_time":		        0.73,
+	"transaction_rate":		      809.10,
+	"throughput":			        0.07,
+	"concurrency":			      586.96,
+	"successful_transactions":	       48627,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.61,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:55:14 +0700 (1686650114)
+[ POST /channel/ 600][4]
+{	"transactions":			       49580,
+	"availability":			      100.00,
+	"elapsed_time":			       60.46,
+	"data_transferred":		        4.54,
+	"response_time":		        0.71,
+	"transaction_rate":		      820.05,
+	"throughput":			        0.08,
+	"concurrency":			      584.73,
+	"successful_transactions":	       49580,
+	"failed_transactions":		           0,
+	"longest_transaction":		        6.00,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:56:49 +0700 (1686650209)
+[ POST /channel/ 600][5]
+{	"transactions":			       50029,
+	"availability":			      100.00,
+	"elapsed_time":			       60.57,
+	"data_transferred":		        4.58,
+	"response_time":		        0.71,
+	"transaction_rate":		      825.97,
+	"throughput":			        0.08,
+	"concurrency":			      583.82,
+	"successful_transactions":	       50029,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.81,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:58:24 +0700 (1686650304)
+Tue, 13 Jun 2023 16:58:24 +0700 (1686650304)
+[ POST /channel/ 800][1]
+{	"transactions":			       47729,
+	"availability":			      100.00,
+	"elapsed_time":			       60.33,
+	"data_transferred":		        4.37,
+	"response_time":		        0.98,
+	"transaction_rate":		      791.13,
+	"throughput":			        0.07,
+	"concurrency":			      775.27,
+	"successful_transactions":	       47729,
+	"failed_transactions":		           0,
+	"longest_transaction":		        8.25,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 16:59:59 +0700 (1686650399)
+[ POST /channel/ 800][2]
+{	"transactions":			       48090,
+	"availability":			      100.00,
+	"elapsed_time":			       60.80,
+	"data_transferred":		        4.40,
+	"response_time":		        0.97,
+	"transaction_rate":		      790.95,
+	"throughput":			        0.07,
+	"concurrency":			      767.09,
+	"successful_transactions":	       48091,
+	"failed_transactions":		           0,
+	"longest_transaction":		        7.69,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:01:34 +0700 (1686650494)
+[ POST /channel/ 800][3]
+{	"transactions":			       45165,
+	"availability":			      100.00,
+	"elapsed_time":			       60.02,
+	"data_transferred":		        4.13,
+	"response_time":		        1.02,
+	"transaction_rate":		      752.50,
+	"throughput":			        0.07,
+	"concurrency":			      770.43,
+	"successful_transactions":	       45165,
+	"failed_transactions":		           0,
+	"longest_transaction":		        6.91,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:03:09 +0700 (1686650589)
+[ POST /channel/ 800][4]
+{	"transactions":			       47454,
+	"availability":			      100.00,
+	"elapsed_time":			       60.43,
+	"data_transferred":		        4.34,
+	"response_time":		        0.98,
+	"transaction_rate":		      785.27,
+	"throughput":			        0.07,
+	"concurrency":			      772.20,
+	"successful_transactions":	       47454,
+	"failed_transactions":		           0,
+	"longest_transaction":		        5.80,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:04:44 +0700 (1686650684)
+[ POST /channel/ 800][5]
+{	"transactions":			       46551,
+	"availability":			      100.00,
+	"elapsed_time":			       60.51,
+	"data_transferred":		        4.26,
+	"response_time":		        1.01,
+	"transaction_rate":		      769.31,
+	"throughput":			        0.07,
+	"concurrency":			      773.52,
+	"successful_transactions":	       46551,
+	"failed_transactions":		           0,
+	"longest_transaction":		        6.73,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:06:19 +0700 (1686650779)
+Tue, 13 Jun 2023 17:06:19 +0700 (1686650779)
+[ POST /channel/ 1000][1]
+{	"transactions":			       51406,
+	"availability":			      100.00,
+	"elapsed_time":			       60.69,
+	"data_transferred":		        4.71,
+	"response_time":		        1.14,
+	"transaction_rate":		      847.03,
+	"throughput":			        0.08,
+	"concurrency":			      962.44,
+	"successful_transactions":	       51406,
+	"failed_transactions":		           0,
+	"longest_transaction":		        8.32,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:07:54 +0700 (1686650874)
+[ POST /channel/ 1000][2]
+{	"transactions":			       50395,
+	"availability":			      100.00,
+	"elapsed_time":			       60.60,
+	"data_transferred":		        4.61,
+	"response_time":		        1.15,
+	"transaction_rate":		      831.60,
+	"throughput":			        0.08,
+	"concurrency":			      957.24,
+	"successful_transactions":	       50395,
+	"failed_transactions":		           0,
+	"longest_transaction":		        7.13,
+	"shortest_transaction":		        0.01
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:09:30 +0700 (1686650970)
+[ POST /channel/ 1000][3]
+{	"transactions":			       46127,
+	"availability":			      100.00,
+	"elapsed_time":			       61.01,
+	"data_transferred":		        4.22,
+	"response_time":		        1.26,
+	"transaction_rate":		      756.06,
+	"throughput":			        0.07,
+	"concurrency":			      955.12,
+	"successful_transactions":	       46128,
+	"failed_transactions":		           0,
+	"longest_transaction":		        7.62,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:11:06 +0700 (1686651066)
+[ POST /channel/ 1000][4]
+{	"transactions":			       49924,
+	"availability":			      100.00,
+	"elapsed_time":			       60.61,
+	"data_transferred":		        4.57,
+	"response_time":		        1.17,
+	"transaction_rate":		      823.69,
+	"throughput":			        0.08,
+	"concurrency":			      963.75,
+	"successful_transactions":	       49924,
+	"failed_transactions":		           0,
+	"longest_transaction":		        8.79,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Tue, 13 Jun 2023 17:12:42 +0700 (1686651162)
+[ POST /channel/ 1000][5]
+{	"transactions":			       57957,
+	"availability":			      100.00,
+	"elapsed_time":			       60.53,
+	"data_transferred":		        5.31,
+	"response_time":		        1.00,
+	"transaction_rate":		      957.49,
+	"throughput":			        0.09,
+	"concurrency":			      958.13,
+	"successful_transactions":	       57957,
+	"failed_transactions":		           0,
+	"longest_transaction":		        7.46,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+>>>>>>>> ended in 1686651259

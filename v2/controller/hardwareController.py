@@ -39,7 +39,7 @@ async def get_hardware(id: int, db: Session = Depends(get_db), akun : Account = 
 @router.post('/')
 async def create(form_data: form_add_hw, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
-        if akun.is_admin:
+        if akun.isadmin:
             if Hardware.create(form_data.name, form_data.type, form_data.desc, db):
                 return JSONResponse({"message":"Success add new hardware!"}, status_code=201)
             else:
@@ -55,7 +55,7 @@ async def create(form_data: form_add_hw, db: Session = Depends(get_db), akun : A
 @router.put('/{id}')
 async def update_hardware(id : int, form_data: form_add_hw, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
-        if akun.is_admin:
+        if akun.isadmin:
             if Hardware.update(id, form_data.name, form_data.type, form_data.desc, db):
                 return JSONResponse({"message":f"Success update hardware with id = {id} !"}, status_code=201)
             else:
@@ -71,7 +71,7 @@ async def update_hardware(id : int, form_data: form_add_hw, db: Session = Depend
 @router.delete('/{id}')
 async def delete_hardware(id : int, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
     if akun:
-        if akun.is_admin:
+        if akun.isadmin:
             if Hardware.delete(id, db):
                 return JSONResponse({"message":f"Success delete hardware with id = {id} !"}, status_code=200)
             else:

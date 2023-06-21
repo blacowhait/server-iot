@@ -10,14 +10,14 @@ database_instance = database_instance()
 # ------------------------ Schema
 
 class ChannelBase(BaseModel):
-    id: int
+    id_channel: int
     id_sensor: int
     value: float
 
 # ------------------------ Class
 
 class Channel():
-    id: int
+    id_channel: int
     id_sensor: int
     value: float
 

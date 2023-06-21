@@ -1,18 +1,22 @@
 #!/bin/bash
-## script by dafaath
+## script by alvinferd modified by dafaath improved by blacowhait
 
 TYPE=$1
 
-if [ "$TYPE" == "greyv1" ] || [ "$TYPE" == "greyv2" ] || [ "$TYPE" == "greyv3" ]; then
+if [ "$TYPE" == "greyv1" ] || [ "$TYPE" == "greyv2" ]; then
     HOST=10.104.0.2
     PORT=1337
     AUTH_METHOD=jwt
+elif [ "$TYPE" == "greyv3" ]; then
+    HOST=10.104.0.2
+    PORT=1337
+    AUTH_METHOD=cookie
 elif [ "$TYPE" == "alvinv1" ] || [ "$TYPE" == "alvinv2" ]; then
-    HOST=10.104.0.4
+    HOST=10.104.0.2
     PORT=8000
     AUTH_METHOD=jwt
 elif [ "$TYPE" == "hanin" ]; then
-    HOST=10.104.0.4
+    HOST=10.104.0.2
     PORT=5000
     AUTH_METHOD=basic
 elif [ "$TYPE" == "" ]; then
@@ -32,9 +36,11 @@ CONCURENCY=(200 400 600 800 1000)
 if [ "$TYPE" == "alvinv2" ] || [ "$TYPE" == "greyv2" ] || [ "$TYPE" == "greyv3" ]; then
     USERNAME="admin"
     PASSWORD="admin"
+    EMAIL="admin@example.com"
 else
     USERNAME="perftest"
     PASSWORD="perftest"
+    EMAIL="bintangf00code@gmail.com"
 fi
 
 echo "TYPE: $TYPE"
@@ -69,6 +75,30 @@ rollback_db() {
     drop_table_db
     init_db
 }
+
+auth() {
+    if [ $AUTH_METHOD == "jwt" ]; then
+        if [ "$TYPE" == "alvinv2" ] || [ "$TYPE" == "alvinv1" ]; then
+            HEADER="Authorization: Bearer $(http --ignore-stdin $HOST:$PORT/auth/login username=$USERNAME password=$PASSWORD | jq -r '.token')"
+        else
+            HEADER="Authorization: Bearer $(http --ignore-stdin $HOST:$PORT/auth/login email=$EMAIL password=$PASSWORD | jq -r '.access_token')"
+        fi
+    elif [ $AUTH_METHOD == "cookie" ]; then
+        # IFS make iteration broken
+        # Cookie="$(http --ignore-stdin --headers --form $HOST:$PORT/auth/login email=$EMAIL password=$PASSWORD | grep 'set-cookie')"; IFS=':'; read -a strarr <<< "$Cookie"; IFS=';' ; read -a strarr2 <<< "${strarr[1]}";
+        # HEADER="Cookie:${strarr2[0]}"
+
+        # awk is the way # awk '{split($0,arr,":"); print arr[1]}' <<< $cookie
+        Cookie="$(http --ignore-stdin --headers --form $HOST:$PORT/auth/login email=$EMAIL password=$PASSWORD | grep cookie | awk '{split($0,arr,":"); print arr[2]}' | awk '{split($0,arr,";"); print arr[1]}')"
+        HEADER="Cookie:$Cookie"
+    elif [ $AUTH_METHOD == "basic" ]; then
+        HEADER="Authorization: Basic $(echo -n $USERNAME:$PASSWORD | base64)"
+    fi
+    echo "Success auth $HEADER"
+}
+
+rollback_db
+auth
 
 test_connection() {
     local method=$1
@@ -126,7 +156,10 @@ perftest() {
             done
             # Restart the postgresql server for the IoT Server
             # iot_test_server is the private key for the IoT Server VM
-            ssh -i ~/iot_test_server root@$HOST sudo systemctl restart postgresql
+            # ssh -i ~/iot_test_server root@$HOST sudo systemctl restart postgresql
+
+            # or you just need generate your publickey and insert to IoT server for more secure way
+            ssh root@$HOST 'sudo systemctl restart postgresql.service'
 
             echo "Sleeping $SLEEP_TIME seconds..."
             sleep $SLEEP_TIME
@@ -138,73 +171,73 @@ perftest() {
     done
 }
 
-auth() {
-    if [ $AUTH_METHOD == "jwt" ]; then
-        if [ "$TYPE" == "alvinv2" ] || [ "$TYPE" == "alvinv1" ]; then
-            HEADER="Authorization: Bearer $(http --ignore-stdin $HOST:$PORT/auth/login username=$USERNAME password=$PASSWORD | jq -r '.token')"
-        else
-            HEADER="Authorization: Bearer $(http --ignore-stdin $HOST:$PORT/user/login username=$USERNAME password=$PASSWORD -p b)"
-        fi
-    elif [ $AUTH_METHOD == "basic" ]; then
-        HEADER="Authorization: Basic $(echo -n $USERNAME:$PASSWORD | base64)"
-    fi
-    echo "Success auth $HEADER"
-}
-
-rollback_db
-auth
-
 echo "Testing connection..."
-if [ $TYPE == "greyv3" ]; then
-    perftest "GET" "/node" "" false
-    perftest "GET" "/node/1" "" false
+# root path in fastapi must using / idk why
+if [[ "$TYPE" == *"grey"* ]]; then
+    test_connection "GET" "/node/" "" false
 else
-    perftest "GET" "/node" "" false
-    perftest "GET" "/node/1" "" false
+    test_connection "GET" "/node" "" false
 fi
 
-if [ "$TYPE" == "alvinv2" ] || [ "$TYPE" == "greyv2" ]; then
-    if [ "$TYPE" == "alvinv2" ]; then
-        test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
-        test_connection "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
-        test_connection "POST" "/channel" "{\"value\": \"{3.21,3.14,8.39,9.12,3.94,13.23,183.2,192.3,72.3,93.2}\", \"id_node\": 1}" true
-    else
-        test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : [3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7], \"field_sensor\": [\"test\", \"asd\", \"sensor3\",\"sensor4\", \"sensor5\", \"sensor6\", \"sensor7\", \"sensor8\", \"sensor9\", \"sensor10\"] }" true
-        test_connection "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : [3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7], \"field_sensor\": [\"test\", \"asd\", \"sensor3\",\"sensor4\", \"sensor5\", \"sensor6\", \"sensor7\", \"sensor8\", \"sensor9\", \"sensor10\"] }" true
-        test_connection "POST" "/channel" "{\"value\": [3.21, 3.14, 8.39, 9.12, 3.94, 13.23, 183.2, 192.3, 72.3, 93.2], \"id_node\": 1}" true
-    fi
+# im using string, bang alvin using array
+if [[ "$TYPE" == *"v3"* ]]; then
+    true
 else
-    test_connection "GET" "/sensor" "" false
-    test_connection "GET" "/sensor/1" "" false
-    test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
-    test_connection "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
-    test_connection "POST" "/channel" "{\"value\": 1.33, \"id_sensor\": 1}" true
+    test_connection "GET" "/node/1" ""  false
+    if [[ "$TYPE" == *"v2"* ]]; then
+        if [[ "$TYPE" == *"alvin"* ]]; then
+            test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
+            test_connection "POST" "/channel" "{\"value\": \"{3.21,3.14,8.39,9.12,3.94,13.23,183.2,192.3,72.3,93.2}\", \"id_node\": 1}" true
+        else
+            test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":"1", \"id_hardware_sensor\" : \"3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7\", \"field_sensor\": \"test,asd,sensor3,sensor4,sensor5,sensor6,sensor7,sensor8,sensor9,sensor10\" }" true
+            test_connection "POST" "/channel/" "{\"value\": \"3.21, 3.14, 8.39, 9.12, 3.94, 13.23, 183.2, 192.3, 72.3, 93.2\", \"id_node\": \"1\"}" true   
+        fi 
+    else
+        if [[ "$TYPE" == *"grey"* ]]; then
+            test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
+            test_connection "POST" "/channel/" "{\"value\": \"1.33\", \"id_sensor\": \"1\"}" true
+        else
+            test_connection "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
+            test_connection "POST" "/channel" "{\"value\": 1.33, \"id_sensor\": 1}" true
+        fi
+    fi
 fi
+
 echo "Connection test success"
 
-## perftest METHOD ENDPOINT DATA DO_ROLLBACK
-if [ $TYPE == "greyv3" ]; then
-    perftest "GET" "/node" "" false
-    perftest "GET" "/node/1" "" false
+echo 'Sleep 5'
+sleep 5
+## print epoch when started
+echo ">>>>>>>> started in $(date +%s)"
+
+if [[ "$TYPE" == *"grey"* ]]; then
+    perftest "GET" "/node/" "" false
 else
     perftest "GET" "/node" "" false
-    perftest "GET" "/node/1" "" false
 fi
 
-if [ "$TYPE" == "alvinv2" ] || [ "$TYPE" == "greyv2" ]; then
-    if [ "$TYPE" == "alvinv2" ]; then
-        perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
-        perftest "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
-        perftest "POST" "/channel" "{\"value\": \"{3.21,3.14,8.39,9.12,3.94,13.23,183.2,192.3,72.3,93.2}\", \"id_node\": 1}" true
-    else
-        perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : [3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7], \"field_sensor\": [\"test\", \"asd\", \"sensor3\",\"sensor4\", \"sensor5\", \"sensor6\", \"sensor7\", \"sensor8\", \"sensor9\", \"sensor10\"] }" true
-        perftest "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : [3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7], \"field_sensor\": [\"test\", \"asd\", \"sensor3\",\"sensor4\", \"sensor5\", \"sensor6\", \"sensor7\", \"sensor8\", \"sensor9\", \"sensor10\"] }" true
-        perftest "POST" "/channel" "{\"value\": [3.21, 3.14, 8.39, 9.12, 3.94, 13.23, 183.2, 192.3, 72.3, 93.2], \"id_node\": 1}" true
-    fi
+if [[ "$TYPE" == *"v3"* ]]; then
+    true
 else
-    perftest "GET" "/sensor" "" false
-    perftest "GET" "/sensor/1" "" false
-    perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
-    perftest "POST" "/node" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
-    perftest "POST" "/channel" "{\"value\": 1.33, \"id_sensor\": 1}" true
+    perftest "GET" "/node/1" ""  false
+    if [[ "$TYPE" == *"v2"* ]]; then
+        if [[ "$TYPE" == *"alvin"* ]]; then
+            perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":1, \"id_hardware_sensor\" : \"{3,4,4,17,8,7,3,4,5,7}\", \"field_sensor\": \"{\\\"test\\\",\\\"asd\\\",\\\"sensor3\\\",\\\"sensor4\\\",\\\"sensor5\\\",\\\"sensor6\\\",\\\"sensor7\\\",\\\"sensor8\\\",\\\"sensor9\\\",\\\"sensor10\\\"}\"}" true
+            perftest "POST" "/channel" "{\"value\": \"{3.21,3.14,8.39,9.12,3.94,13.23,183.2,192.3,72.3,93.2}\", \"id_node\": 1}" true
+        else
+            perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware_node\":"1", \"id_hardware_sensor\" : \"3, 4, 4, 17, 8, 7, 3,  4 , 5 ,7\", \"field_sensor\": \"test,asd,sensor3,sensor4,sensor5,sensor6,sensor7,sensor8,sensor9,sensor10\" }" true
+            perftest "POST" "/channel/" "{\"value\": \"3.21, 3.14, 8.39, 9.12, 3.94, 13.23, 183.2, 192.3, 72.3, 93.2\", \"id_node\": \"1\"}" true    
+        fi
+    else
+        if [[ "$TYPE" == *"grey"* ]]; then
+            perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
+            perftest "POST" "/channel/" "{\"value\": \"1.33\", \"id_sensor\": \"1\"}" true
+        else
+            perftest "PUT" "/node/1" "{ \"name\":\"test\",\"location\":\"test\",\"id_hardware\":1 }" true
+            perftest "POST" "/channel" "{\"value\": 1.33, \"id_sensor\": 1}" true
+        fi
+    fi
 fi
+
+## print epoch when ended
+echo ">>>>>>>> ended in $(date +%s)"

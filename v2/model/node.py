@@ -47,12 +47,14 @@ class Node():
         res = await database_instance.fetch_rows(query=f"select field_sensor from node where id='{id}';")
         return res
 
-    def get_all(idu: int, db: Session):
-        nodes = db.query(Node_DB).filter(Node_DB.id_user == idu).all()
+    async def get_all():
+        # nodes = db.query(Node_DB).filter(Node_DB.id_user == idu).all()
+        nodes = await database_instance.fetch_rows(query=f"select * from node;")
         return nodes
     
-    def get(id: int, idu: int, db: Session):
-        node = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id == id).first()
+    async def get(id: int):
+        # node = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id == id).first()
+        node = await database_instance.fetch_rows(query=f"select * from node where id_node='{id}';")
         return node
     
     def delete(id: int, idu: int, db: Session):

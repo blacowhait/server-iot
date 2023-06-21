@@ -2,24 +2,25 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database.db import Account_DB
 import bcrypt
+from hashlib import sha256
 
 # ------------------------ Schema
 
 
 class AccountBase(BaseModel):
     username: str
-    hashed_password: str
+    password: str
     email: str
-    is_admin: bool
+    isadmin: bool
     token: str
 
 # ------------------------ Class
 
 class Account():
     username : str
-    hashed_password: str
+    password: str
     email: str
-    is_admin: bool
+    isadmin: bool
     token: str
 
     # class Config:
@@ -27,15 +28,16 @@ class Account():
 
     def create(uname: str, eml: str, paswd: str, tokn: str, db: Session):
         salt = bcrypt.gensalt()
-        hashed = bcrypt.hashpw(paswd.encode(), salt)
+        # hashed = bcrypt.hashpw(paswd.encode(), salt)
+        hashed = sha256(pswd.encode()).hexdigest()
         print(hashed)
         akun = Account_DB(
             username = uname,
-            hashed_password = hashed.decode(),
+            password = hashed.decode(),
             email = eml,
-            is_admin = False,
+            isadmin = False,
             token = tokn,
-            activated = True
+            # activated = True
         )
         db.add(akun)
         db.commit()
@@ -47,7 +49,7 @@ class Account():
         acc = db.query(Account_DB).filter(Account_DB.email == eml).first()
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(paswd.encode(), salt)
-        acc.hashed_password = hashed.decode()
+        acc.password = hashed.decode()
         db.commit()
         db.refresh(acc)
         db.close()
@@ -56,10 +58,10 @@ class Account():
     def update_byself(eml: str, old: str, pswd: str, db: Session):
         acc = db.query(Account_DB).filter(Account_DB.email == eml).first()
         if acc:
-            if bcrypt.checkpw(old.encode(), acc.hashed_password.encode()):
+            if bcrypt.checkpw(old.encode(), acc.password.encode()):
                 salt = bcrypt.gensalt()
                 hashed = bcrypt.hashpw(pswd.encode(), salt)
-                acc.hashed_password = hashed.decode()
+                acc.password = hashed.decode()
                 db.commit()
                 db.refresh(acc)
                 db.close()
@@ -74,7 +76,7 @@ class Account():
         if acc:
             if token == acc.token:
                 acc.token = 'Done'
-                acc.activated = True
+                # acc.activated = True
                 db.commit()
                 db.refresh(acc)
                 db.close()
@@ -95,7 +97,7 @@ class Account():
         return acc
 
     def is_exist(eml: str, db: Session):
-        exist = db.query(Account_DB).filter(Account_DB.email == eml, Account_DB.activated == True).first()
+        exist = db.query(Account_DB).filter(Account_DB.email == eml).first()
         db.close()
         if not exist:
             return False
@@ -104,7 +106,9 @@ class Account():
     def check_pass(eml: str, pswd: str, db: Session):
         acc = db.query(Account_DB).filter(Account_DB.email == eml).first()
         db.close()
-        if bcrypt.checkpw(pswd.encode(), acc.hashed_password.encode()):
+        enc_password = sha256(pswd.encode()).hexdigest()
+        # if bcrypt.checkpw(pswd.encode(), acc.password.encode()):
+        if enc_password == acc.password:
             return True
         else:
             return False

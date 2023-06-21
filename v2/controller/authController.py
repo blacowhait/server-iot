@@ -28,7 +28,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: str | None = None
-    is_admin: bool | None = None
+    isadmin: bool | None = None
     id: int | None = None
 
 class form_data(BaseModel):
@@ -58,7 +58,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, settings.SECRET, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db : Session = Depends(get_db)):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -67,11 +67,11 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db : S
     try:
         payload = jwt.decode(token, settings.SECRET, algorithms=[settings.ALGORITHM])
         email: str = payload.get("sub")
-        is_admin: bool = payload.get("is_admin")
+        isadmin: bool = payload.get("isadmin")
         id: int = payload.get("id")
         if email is None:
             raise credentials_exception
-        token_data = TokenData(email=email, is_admin=is_admin, id=id)
+        token_data = TokenData(email=email, isadmin=isadmin, id=id)
     except JWTError:
         raise credentials_exception
     return token_data
@@ -122,7 +122,7 @@ async def login(form_data: form_data, db : Session = Depends(get_db)):
     if Account.check_pass(email, password, db):
         akun = Account.get_user(email, db)
         access_token = create_access_token(
-            data={"sub": akun.email, "is_admin": akun.is_admin, "id": akun.id}, expires_delta=access_token_expires
+            data={"sub": akun.email, "isadmin": akun.isadmin, "id": akun.id_user}, expires_delta=access_token_expires
         )
         return {"access_token": access_token, "token_type": "bearer"}
     else:

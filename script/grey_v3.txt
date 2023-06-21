@@ -1,0 +1,185 @@
+TYPE: greyv3
+Host: 10.104.0.2:1337
+Test time: 60s
+Sleep time: 30
+Timeout: 600
+Iteration: 5
+Concurency: 200 400 600 800 1000
+Auth method: cookie
+Username: admin
+Password: admin
+DROP TABLE
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COPY 999
+COPY 20
+COPY 100
+COPY 2
+ setval 
+--------
+     20
+(1 row)
+
+ setval 
+--------
+    100
+(1 row)
+
+ setval 
+--------
+      2
+(1 row)
+
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+Success auth Cookie: user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlkIjoxLCJpc19hZG1pbiI6dHJ1ZSwiZXhwIjoxNjg1NDY1OTY1fQ.pV5MISHD-uCZndEod5yk0VTkP_rbNaOBqG6Lk3Xgm-s
+Testing connection...
+Connection test success
+Sleep 5
+>>>>>>>> started in 1685105970
+Fri, 26 May 2023 19:59:30 +0700 (1685105970)
+Fri, 26 May 2023 19:59:30 +0700 (1685105970)
+[ GET /node/ 200][1
+2
+3
+4
+5]
+{	"transactions":			       31006,
+	"availability":			      100.00,
+	"elapsed_time":			       59.17,
+	"data_transferred":		     1268.10,
+	"response_time":		        0.38,
+	"transaction_rate":		      524.02,
+	"throughput":			       21.43,
+	"concurrency":			      197.76,
+	"successful_transactions":	       15498,
+	"failed_transactions":		           0,
+	"longest_transaction":		       10.92,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Fri, 26 May 2023 20:01:03 +0700 (1685106063)
+Fri, 26 May 2023 20:01:03 +0700 (1685106063)
+[ GET /node/ 400][1
+2
+3
+4
+5]
+{	"transactions":			       30456,
+	"availability":			      100.00,
+	"elapsed_time":			       59.03,
+	"data_transferred":		     1244.45,
+	"response_time":		        0.76,
+	"transaction_rate":		      515.94,
+	"throughput":			       21.08,
+	"concurrency":			      390.92,
+	"successful_transactions":	       15216,
+	"failed_transactions":		           0,
+	"longest_transaction":		       18.40,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Fri, 26 May 2023 20:02:37 +0700 (1685106157)
+Fri, 26 May 2023 20:02:37 +0700 (1685106157)
+[ GET /node/ 600][1
+2
+3
+4
+5]
+{	"transactions":			       31318,
+	"availability":			      100.00,
+	"elapsed_time":			       59.85,
+	"data_transferred":		     1279.26,
+	"response_time":		        1.10,
+	"transaction_rate":		      523.27,
+	"throughput":			       21.37,
+	"concurrency":			      577.05,
+	"successful_transactions":	       15648,
+	"failed_transactions":		           0,
+	"longest_transaction":		       19.36,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Fri, 26 May 2023 20:04:10 +0700 (1685106250)
+Fri, 26 May 2023 20:04:10 +0700 (1685106250)
+[ GET /node/ 800][1
+2
+3
+4
+5]
+{	"transactions":			       32052,
+	"availability":			      100.00,
+	"elapsed_time":			       59.54,
+	"data_transferred":		     1310.92,
+	"response_time":		        1.41,
+	"transaction_rate":		      538.33,
+	"throughput":			       22.02,
+	"concurrency":			      758.91,
+	"successful_transactions":	       16022,
+	"failed_transactions":		           0,
+	"longest_transaction":		       33.35,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+Fri, 26 May 2023 20:05:43 +0700 (1685106343)
+Fri, 26 May 2023 20:05:43 +0700 (1685106343)
+[ GET /node/ 1000][1
+2
+3
+4
+5]
+{	"transactions":			       31861,
+	"availability":			      100.00,
+	"elapsed_time":			       59.34,
+	"data_transferred":		     1303.06,
+	"response_time":		        1.75,
+	"transaction_rate":		      536.92,
+	"throughput":			       21.96,
+	"concurrency":			      940.21,
+	"successful_transactions":	       15925,
+	"failed_transactions":		           0,
+	"longest_transaction":		       34.70,
+	"shortest_transaction":		        0.00
+}
+Sleeping 30 seconds...
+>>>>>>>> ended in 1685106437

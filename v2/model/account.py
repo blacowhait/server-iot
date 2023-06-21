@@ -10,8 +10,7 @@ class AccountBase(BaseModel):
     username: str
     hashed_password: str
     email: str
-    is_admin: bool
-    token: str
+    isadmin: bool
 
 # ------------------------ Class
 
@@ -19,8 +18,7 @@ class Account():
     username : str
     hashed_password: str
     email: str
-    is_admin: bool
-    token: str
+    isadmin: bool
 
     # class Config:
     #     orm_mode = True
@@ -31,10 +29,9 @@ class Account():
         print(hashed)
         akun = Account_DB(
             username = uname,
-            hashed_password = hashed.decode(),
+            password = hashed.decode(),
             email = eml,
-            is_admin = False,
-            token = tokn,
+            isadmin = False,
         )
         db.add(akun)
         db.commit()
@@ -94,7 +91,7 @@ class Account():
         return acc
 
     def is_exist(eml: str, db: Session):
-        exist = db.query(Account_DB).filter(Account_DB.email == eml, Account_DB.activated == True).first()
+        exist = db.query(Account_DB).filter(Account_DB.email == eml, Account_DB.status == True).first()
         db.close()
         if not exist:
             return False
@@ -103,7 +100,7 @@ class Account():
     def check_pass(eml: str, pswd: str, db: Session):
         acc = db.query(Account_DB).filter(Account_DB.email == eml).first()
         db.close()
-        if bcrypt.checkpw(pswd.encode(), acc.hashed_password.encode()):
+        if bcrypt.checkpw(pswd.encode(), acc.password.encode()):
             return True
         else:
             return False

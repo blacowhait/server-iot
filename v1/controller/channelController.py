@@ -21,10 +21,9 @@ class form_add_channel(BaseModel):
     id_sensor: str
 
 @router.post('/')
-async def create(form_data: form_add_channel, db: Session = Depends(get_db), akun : Account = Depends(get_current_user)):
+async def create(form_data: form_add_channel, akun : Account = Depends(get_current_user)):
     if akun:
-        if Sensor.check(form_data.id_sensor, akun.id, db):
-            if await Channel.create(form_data.id_sensor, form_data.value):
-                return JSONResponse({"message":"Success add new channel!"}, status_code=201)
+        if await Channel.create(form_data.id_sensor, form_data.value):
+            return JSONResponse({"message":"Success add new channel!"}, status_code=201)
     else:
         return JSONResponse({"message":"Login First"}, status_code=401)

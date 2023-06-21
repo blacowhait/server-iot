@@ -1,8 +1,14 @@
-fastapi[all]
-psycopg2
 # sudo apt-get install libpq-dev
+# sudo apt install python3-pip
+# sudo apt install redis-server
+
+fastapi[all]
+fastapi-cache2[redis]
+psycopg2
 bcrypt
 sib_api_v3_sdk
 asyncpg
 python-jose
 passlib
+sqlalchemy
+gunicorn
