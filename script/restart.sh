@@ -1,3 +1,3 @@
-systemctl status postgresql.service
-systemctl status redis.service
+systemctl restart postgresql.service
+systemctl restart redis.service
 redis-cli flushall
