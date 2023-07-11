@@ -5,6 +5,9 @@ from sqlalchemy.orm import Session
 from database.db import Sensor_DB
 from database.db import Node_DB
 from database.conn_pool import database_instance
+from fastapi.concurrency import run_in_threadpool
+import asyncio
+import concurrent.futures
 
 database_instance = database_instance()
 
@@ -55,21 +58,21 @@ class Sensor():
     
     async def get(id: int):
         # res = await database_instance.fetch_rows(query=f"select * from sensor where id_sensor='{id}' and id_user='{idn}';")
-        res = await database_instance.fetch_rows(query=f"select * from sensor where id_sensor='{id};")
+        res = await database_instance.fetch_rows(query=f"select * from sensor where id_sensor='{id}';")
         return res
     
     def check(id: int, idu: int, db: Session):
         try:
             sensor = db.query(Sensor_DB).filter(Sensor_DB.id_sensor == id).first()
             idn = sensor.id_node
-            node = db.query(Node_DB).filter(Node_DB.id_sensor == idn).first()
+            node = db.query(Node_DB).filter(Node_DB.id_node == idn).first()
             niu = node.id_user
         except:
             niu = -1
         if niu == idu:
             return True
         else:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"you only can access your own node !")
 
     def delete(id: int, db: Session):

@@ -37,16 +37,16 @@ class Node_DB(Base):
     location = Column(String)
     field_sensor = Column(ARRAY(String))
     id_hardware_node = Column(Integer)
-    id_user = Column(Integer, ForeignKey("user_person.id"))
+    id_user = Column(Integer, ForeignKey("user_person.id_user"))
     id_hardware_sensor = Column(ARRAY(Integer))
     is_public = Column(Boolean, default=False)
 
 class Feed_DB(Base):
     __tablename__ = 'feed'
-    # id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     value = Column(ARRAY(Float))
     time = Column(DateTime(timezone=True), server_default=func.now())
-    id_node = Column(Integer, ForeignKey("node.id"))
+    id_node = Column(Integer, ForeignKey("node.id_node"))
 
 # Dependency
 def get_db():

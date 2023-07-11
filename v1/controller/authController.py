@@ -84,7 +84,7 @@ async def verif_email(email: str, token: str, response: Response, db: Session = 
             data={"sub": email}, expires_delta=access_token_expires
         )
         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
-        response.set_cookie(key='user', value=access_token)
+        # response.set_cookie(key='user', value=access_token)
         return response
     else:
         raise HTTPException(status_code=400, detail="Invalid token")
@@ -93,9 +93,11 @@ async def verif_email(email: str, token: str, response: Response, db: Session = 
 async def regis(form_data: form_data_regist, db : Session = Depends(get_db)):
     token = binascii.b2a_hex(os.urandom(16))
     token = token.decode()
+    print(token)
     if Account.is_exist(form_data.email, db):
-        return JSONResponse({"msg":"User Already Exist"}, status_code=400)
-    print(form_data)
+        return JSONResponse({"msg":"email Already Exist"}, status_code=400)
+    if Account.is_exist_uname(form_data.username, db):
+        return JSONResponse({"msg":"Username Already Exist"}, status_code=400)
     if Account.create(form_data.username, form_data.email, form_data.password, token, db):
         await send_verification_email(form_data.email, token)
         return JSONResponse({"msg":"Check Your Email"}, status_code=201)

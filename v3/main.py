@@ -11,6 +11,12 @@ from sqlalchemy.orm import Session
 from settings import get_settings
 from fastapi.templating import Jinja2Templates
 
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
+from redis import asyncio as aioredis
+
 settings = get_settings()
 database_instance = database_instance()
 
@@ -47,13 +53,15 @@ async def validation_exception_handler(request, err):
 @app.on_event("startup")
 async def startup():
     await database_instance.connect()
+    redis = aioredis.from_url("redis://localhost")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     # app.state.db = database_instance
 
 @app.get('/')
 async def index(request: Request, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
     try:
-        akun = await cookie_checker(kue, db)
+        akun = await cookie_checker(kue)
         return templates.TemplateResponse("main.html", {"request": request, "akun": akun})
     except:
         return templates.TemplateResponse("auth.html", {"request": request, "message":""})

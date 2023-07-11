@@ -12,6 +12,12 @@ from sqlalchemy.orm import Session
 from settings import get_settings
 from json import dumps
 
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
+from redis import asyncio as aioredis
+
 settings = get_settings()
 database_instance = database_instance()
 
@@ -45,6 +51,8 @@ async def validation_exception_handler(request, err):
 @app.on_event("startup")
 async def startup():
     await database_instance.connect()
+    redis = aioredis.from_url("redis://localhost")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
     # app.state.db = database_instance
 
 @app.get('/')

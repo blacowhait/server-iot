@@ -36,7 +36,7 @@ class Node():
         
     async def update(id: int, nme: str, loc: str, fie: ARRAY(int), idn: int, ids: ARRAY(int)):
         print(fie)
-        res = await database_instance.execute(query=f"update node set name='{nme}', location='{loc}', field_sensor=ARRAY {fie}, id_hardware_node={idn}, id_hardware_sensor=ARRAY {ids} where id ='{id}'")
+        res = await database_instance.execute(query=f"update node set name='{nme}', location='{loc}', field_sensor=ARRAY {fie}, id_hardware_node={idn}, id_hardware_sensor=ARRAY {ids} where id_node ='{id}'")
         if res == "UPDATE 1":
             return True
         else:
@@ -44,19 +44,20 @@ class Node():
                             detail=f"Something went wrong when update node : {res}")
         
     async def get_field_data(id: int):
-        res = await database_instance.fetch_rows(query=f"select field_sensor from node where id='{id}';")
+        res = await database_instance.fetch_rows(query=f"select field_sensor from node where id_node='{id}';")
         return res
 
-    def get_all(idu: int, db: Session):
-        nodes = db.query(Node_DB).filter(Node_DB.id_user == idu).all()
+    async def get_all():
+        # nodes = db.query(Node_DB).filter(Node_DB.id_user == idu).all()
+        nodes = await database_instance.fetch_rows(query=f"select * from node;")
         return nodes
     
     def get(id: int, idu: int, db: Session):
-        node = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id == id).first()
+        node = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id_node == id).first()
         return node
     
     def delete(id: int, idu: int, db: Session):
-        res = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id == id).delete()
+        res = db.query(Node_DB).filter(Node_DB.id_user == idu, Node_DB.id_node == id).delete()
         db.commit()
         db.close()
         print(res)

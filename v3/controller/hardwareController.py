@@ -18,7 +18,7 @@ router = APIRouter(
 @router.get('/')
 async def get_all_hardware(request: Request, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         list_hardware = Hardware.get_all(db)
         return templates.TemplateResponse("hardware.html", {"request": request, "datas": list_hardware})
@@ -28,7 +28,7 @@ async def get_all_hardware(request: Request, db: Session = Depends(get_db)):
 @router.post('/')
 async def create(request: Request, name: str = Form(),  type: str = Form(),  desc: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         if akun.is_admin:
             if Hardware.create(name, type, desc, db):
@@ -46,7 +46,7 @@ async def create(request: Request, name: str = Form(),  type: str = Form(),  des
 @router.get('/update/{id}')
 async def update_form(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         return templates.TemplateResponse("update_hardware.html", {"request": request, "update_id": id})
     else:
@@ -56,7 +56,7 @@ async def update_form(request: Request, id: int, db: Session = Depends(get_db)):
 @router.post('/{id}')
 async def update_hardware(request: Request, id: int, name: str = Form(),  type: str = Form(),  desc: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         if akun.is_admin:
             if Hardware.update(id, name, type, desc, db):
@@ -75,7 +75,7 @@ async def update_hardware(request: Request, id: int, name: str = Form(),  type: 
 @router.get('/delete/{id}')
 async def delete_hardware(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         if akun.is_admin:
             if Hardware.delete(id, db):

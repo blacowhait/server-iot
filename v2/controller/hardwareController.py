@@ -61,7 +61,7 @@ async def update_hardware(id : int, form_data: form_add_hw, db: Session = Depend
             else:
                 raise HTTPException(
                     status_code = status.HTTP_400_BAD_REQUEST,
-                    detail="error",
+                    detail="id not found",
                 )
         else:
             return JSONResponse({"message":"Only admin can do it!"}, status_code=403)
@@ -77,7 +77,7 @@ async def delete_hardware(id : int, db: Session = Depends(get_db), akun : Accoun
             else:
                 raise HTTPException(
                     status_code = status.HTTP_400_BAD_REQUEST,
-                    detail="error",
+                    detail="Id not found",
                 )
         else:
             return JSONResponse({"message":"Only admin can do it!"}, status_code=403)

@@ -253,7 +253,7 @@ def create_average_chart_siege_and_metric(df_bar: pd.DataFrame, df_line: pd.Data
     df_bar.plot(
         x='server',
         kind='bar',
-        xlabel="Endpoint",
+        xlabel="Percobaan konfigurasi",
         ylabel="Transaction Per Second (TPS)",
         color=COLOR,
         ax=ax,
@@ -265,6 +265,7 @@ def create_average_chart_siege_and_metric(df_bar: pd.DataFrame, df_line: pd.Data
         linestyle='-', 
         marker='o',
         secondary_y=True,
+        xlabel="Percobaan konfigurasi",
         ylabel="Memory Usage (MB)",
         ylim=(0,8000),
         ax=ax,
@@ -295,8 +296,8 @@ def create_chart_metric_with_siege(input_file):
     siege_dict = get_dict_from_siege(input_file)
     print(metric_dict)
     # version = ["v1", "v2", "v3"]
-    # version = ["pool"]
-    version = ["banding"]
+    version = ["pool"]
+    # version = ["banding"]
     font_size: int = 6 
     fmt: str = "%.1f"
     for server_list in version:
@@ -329,6 +330,9 @@ def create_chart_metric_with_siege(input_file):
         siege_data = pd.DataFrame(version_dict_siege)
         metric_data = pd.DataFrame(version_dict_metric)
         
+        siege_data.to_excel(f"{server_list}-siege-data.xlsx")
+        metric_data.to_excel(f"{server_list}-metric-data.xlsx")
+
         fig, ax = plt.subplots(1, facecolor='white', figsize=(10, 7))
         siege_data.plot(
             x='endpoint',
@@ -561,6 +565,7 @@ def create_chart_siege_result(input_file):
         excluded_endpoint = ENDPOINT_EXCLUDE_VERSION[version]
         df_version = df_version.loc[~df_version["endpoint"].isin(excluded_endpoint)]
         endpoints = df_version["endpoint"].unique()
+        print(endpoints)
         for endpoint in endpoints:
             create_chart_per_endpoint(endpoint, df_version, version, column_to_compare)
         create_chart_all_endpoint(df_version, column_to_compare, version)
@@ -579,7 +584,7 @@ example: create_chart.py summary/all.xlsx"""
 
     create_chart_siege_result(args[1])
     create_chart_metric(args[1])
-    # create_chart_metric_with_siege(args[1])
+    create_chart_metric_with_siege(args[1])
 
 
 if __name__ == "__main__":

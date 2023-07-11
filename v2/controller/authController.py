@@ -76,28 +76,30 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         raise credentials_exception
     return token_data
 
-@router.get("/activation/")
-async def verif_email(email: str, token: str, response: Response, db: Session = Depends(get_db)):
-    if Account.check_token(email, token, db):
-        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES) 
-        access_token = create_access_token(
-            data={"sub": email}, expires_delta=access_token_expires
-        )
-        response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
-        response.set_cookie(key='user', value=access_token)
-        return response
-    else:
-        raise HTTPException(status_code=400, detail="Invalid token")
+# @router.get("/activation/")
+# async def verif_email(email: str, token: str, response: Response, db: Session = Depends(get_db)):
+#     if Account.check_token(email, token, db):
+#         access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES) 
+#         access_token = create_access_token(
+#             data={"sub": email}, expires_delta=access_token_expires
+#         )
+#         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+#         response.set_cookie(key='user', value=access_token)
+#         return response
+#     else:
+#         raise HTTPException(status_code=400, detail="Invalid token")
 
 @router.post("/regist")
 async def regis(form_data: form_data_regist, db : Session = Depends(get_db)):
     token = binascii.b2a_hex(os.urandom(16))
     token = token.decode()
     if Account.is_exist(form_data.email, db):
-        return JSONResponse({"msg":"User Already Exist"}, status_code=400)
-    print(form_data)
-    if Account.create(form_data.username, form_data.email, form_data.password, token, db):
-        await send_verification_email(form_data.email, token)
+        return JSONResponse({"msg":"Email Already Exist"}, status_code=400)
+    if Account.is_exist_uname(form_data.username, db):
+        return JSONResponse({"msg":"Username Already Exist"}, status_code=400)
+    # if Account.create(form_data.username, form_data.email, form_data.password, token, db):
+    if Account.create(form_data.username, form_data.email, form_data.password, db):
+        # await send_verification_email(form_data.email, token)
         return JSONResponse({"msg":"Check Your Email"}, status_code=201)
 
 @router.post("/forgot-password")

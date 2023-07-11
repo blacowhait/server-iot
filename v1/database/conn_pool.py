@@ -30,8 +30,8 @@ class Database:
         if not self._connection_pool:
             try:
                 self._connection_pool = await asyncpg.create_pool(
-                    min_size=10,
-                    max_size=10,
+                    min_size=20,
+                    max_size=20,
                     max_queries=50000,
                     host=self.host,
                     port=self.port,
@@ -67,9 +67,20 @@ class Database:
                 print("Results", result)
                 return result
             except Exception as e:
-                print(e)
+                return e
             finally:
                 await self._connection_pool.release(self.con)
+    
+    async def get_con(self):
+        if not self._connection_pool:
+            await self.connect()
+            return 0
+        else:
+            conn = await self._connection_pool.acquire()
+            return conn
+
+    async def release_con(self, conn):
+        await self._connection_pool.release(conn)
 
 @lru_cache()
 def database_instance():            

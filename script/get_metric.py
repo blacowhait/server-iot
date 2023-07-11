@@ -63,8 +63,8 @@ def get_server_host_id(server_name):
 def get_start_and_end_per_endpoint_from_server_data(server_data):
     server_data.sort_values(by=["epoch"])
     # endpoint = ["GET /node","GET /node/1","PUT /node/1","POST /channel"]
-    # endpoint = ["PUT /node/1","POST /channel/"] # for pool configuration checking
-    endpoint = ["GET /node/","GET /node/1","PUT /node/1","POST /channel/"] # banding
+    endpoint = ["PUT /node/1","POST /channel/"] # for pool configuration checking
+    # endpoint = ["GET /node/","GET /node/1","PUT /node/1","POST /channel/"] # banding
     endpoint_dict = dict()
     endpoint_index = 0
     for i in range(0, len(server_data)):
@@ -154,7 +154,7 @@ def get_metric(host_id, start, end, output_name):
         )
 
         if os.path.exists(output_filename):
-            # print(f"Using cached file {output_filename}")
+            print(f"Using cached file {output_filename}")
             json_response = json.load(open(output_filename))
         else:
             url = f"{DIGITAL_OCEAN_BASE_URL_API}/{metric}"
@@ -162,9 +162,9 @@ def get_metric(host_id, start, end, output_name):
             header = {"Authorization": f"Bearer {DIGITAL_OCEAN_API_KEY}"}
             response = requests.get(url, params=params, headers=header)
             json_response = response.json()
-            # with open(output_filename, "w") as output_file:
-            #     output_file.write(json.dumps(json_response, indent=2))
-            #     print(f"Output written to {output_file.name}")
+            with open(output_filename, "w") as output_file:
+                output_file.write(json.dumps(json_response, indent=2))
+                print(f"Output written to {output_file.name}")
 
         result = json_response["data"]["result"]
         for res in result:

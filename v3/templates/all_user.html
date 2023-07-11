@@ -10,7 +10,7 @@
     <th>email</th>
     <th>is admin</th>
     <th>activated</th>
-    <th>last update</th>
+    <!-- <th>last update</th> -->
 </tr>
 
     {% for akun in akuns %}
@@ -18,9 +18,9 @@
     <td>{{ akun.id }}</td>
     <td>{{ akun.username }}</td>
     <td>{{ akun.email }}</td>
-    <td>{{ akun.is_admin }}</td>
-    <td>{{ akun.activated }}</td>
-    <td>{{ akun.time_updated }}</td>
+    <td>{{ akun.isadmin }}</td>
+    <td>{{ akun.status }}</td>
+    <!-- <td>{{ akun.time_updated }}</td> -->
 </tr>
     {% endfor %}
 </table>

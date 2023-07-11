@@ -23,7 +23,7 @@ class Feed():
     #     orm_mode = True
 
     async def create(id: int, val: ARRAY(float)):
-        res = await database_instance.execute(query=f"insert into feed (value, id_node) values (ARRAY {val}, '{id}');")
+        res = await database_instance.execute(query=f"insert into feed (time, value, id_node) values (current_timestamp, ARRAY {val}, '{id}');")
         if res == "INSERT 0 1":
             return True
         else:
@@ -31,9 +31,9 @@ class Feed():
                             detail=f"Something went wrong when create feed : {res}")
     
     async def get_len(id: int):
-        res = await database_instance.fetch_rows(query=f"select field_sensor from node where id='{id}';")
+        res = await database_instance.fetch_rows(query=f"select field_sensor from node where id_node='{id}';")
         return res
     
     async def get_feed_data(id: int):
-        res = await database_instance.fetch_rows(query=f"select value,time_created from feed where id_node='{id}' order by id desc limit 7;")
+        res = await database_instance.fetch_rows(query=f"select value,time from feed where id_node='{id}' order by id_node desc limit 7;")
         return res

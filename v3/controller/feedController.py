@@ -19,9 +19,9 @@ router = APIRouter(
 @router.post('/')
 async def create(request: Request, value: str = Form(),  id_node: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
-    value = [int(_) for _ in value.split(',')]
-    len_node_object = await Feed.get_len(id_node)
+    akun = await cookie_checker(kue)
+    value = [float(_) for _ in value.split(',')]
+    len_node_object = await Feed.get_len(int(id_node))
     len_node = len(len_node_object[0].get('field_sensor'))
     if akun:
         if len_node == len(value):
@@ -43,7 +43,7 @@ async def create(request: Request, value: str = Form(),  id_node: str = Form(), 
 @router.get('/')
 async def get_form(request: Request, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         return templates.TemplateResponse("feed.html", {"request": request})
     else:
@@ -52,16 +52,16 @@ async def get_form(request: Request, db: Session = Depends(get_db)):
 @router.get('/detail/{id}')
 async def get_stats(request: Request, id: int, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    akun = await cookie_checker(kue, db)
+    akun = await cookie_checker(kue)
     if akun:
         feed_object = await Feed.get_feed_data(id)
         field_object = await Node.get_field_data(id)
         field = field_object[0]["field_sensor"]
         feed_dict = {x: [] for x in field}
         date_list = []
-        year_month_day_format = '%Y-%m-%d'
+        year_month_day_format = '%Y-%m-%d %-H-%-M-%-S'
         for i in reversed(range(0, len(feed_object))):
-            date_list.append(feed_object[i]["time_created"].strftime(year_month_day_format))
+            date_list.append(feed_object[i]["time"].strftime(year_month_day_format))
             for j in range(0, len(feed_object[i]["value"])):
                 feed_dict[field[j]].append(feed_object[i]["value"][j])
         print(feed_dict)

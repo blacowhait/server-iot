@@ -2,6 +2,7 @@ import os
 from typing import Dict
 from natsort import natsorted
 import pandas as pd
+import matplotlib.pyplot as plt
 import re
 from statistics import stdev, mean
 
@@ -37,9 +38,9 @@ def get_res(path):
             value = float(data.split(':')[1].strip(','))
             if value < 100:
                 try:
-                    fail[key] = 1
-                except:
                     fail[key] += 1
+                except:
+                    fail[key] = 1
 
     file = nama.split('/')[-1].split('.')[0]
     rata = 0
@@ -65,18 +66,40 @@ def get_res(path):
         except:
             fail_list.append(0)
     df[file] = fail_list
-    print(df)
     print('rataan total :',rata/len(res.items()))
     print('ketika memory 100% :',fail)
 
 df : Dict[str, list] = {}
-df["endpoint"] = ['GET /node/', 'GET /node/1', 'PUT /node/1', 'POST /channel/']
+df["endpoint"] = ['PUT /node/1', 'POST /channel/']
 for file in natsorted(os.listdir(RESULT_FOLDER)):
     print('-----------------------------')
     print('Konfigurasi :',file.split('.')[0])
     full_path = os.path.join(RESULT_FOLDER, file)
     get_res(full_path)
 
-print(df)
-excel = pd.DataFrame(df)
-excel.to_excel('memori_100%.xlsx')
+# print(df)
+# excel = pd.DataFrame(df)
+# excel.to_excel('memori_100%.xlsx')
+
+plot = dict()
+plot["konfigurasi"] = ["70_200k", "100_500k", "125_600k", "135_700k", "150_750k", "200_1000k"]
+post, put = [],[]
+for key, val in df.items():
+    if key == 'endpoint':
+        continue
+    put.append(val[0])
+    post.append(val[1])
+plot["put"] = put
+plot["post"] = post
+print(plot)
+
+df = pd.DataFrame(plot)
+df.plot(
+        x='konfigurasi',
+        kind='bar',
+        xlabel="Percobaan konfigurasi",
+        ylabel="Transaction Per Second (TPS)",
+        legend=None
+    )
+
+plt.savefig('pool_avail.png', bbox_inches="tight")

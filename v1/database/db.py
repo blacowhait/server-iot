@@ -22,6 +22,7 @@ class Account_DB(Base):
     email = Column(String)
     isadmin = Column(Boolean, default=False)
     token = Column(String)
+    status= Column(Boolean, default=False)
     # image = Column(String, default="example.svg")
     # time_created = Column(DateTime(timezone=True), server_default=func.now())
     # time_updated = Column(DateTime( 
@@ -39,23 +40,23 @@ class Node_DB(Base):
     id_node = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     location = Column(String)
-    id_hardware = Column(Integer, ForeignKey("hardware.id"))
-    id_user = Column(Integer, ForeignKey("user_person.id"))
+    id_hardware = Column(Integer, ForeignKey("hardware.id_hardware"))
+    id_user = Column(Integer, ForeignKey("user_person.id_user"))
 
 class Sensor_DB(Base):
     __tablename__ = 'sensor'
     id_sensor = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     unit = Column(String)
-    id_node = Column(Integer, ForeignKey("node.id"))
-    id_hardware = Column(Integer, ForeignKey("hardware.id"))
+    id_node = Column(Integer, ForeignKey("node.id_node"))
+    id_hardware = Column(Integer, ForeignKey("hardware.id_hardware"))
 
 class Channel_DB(Base):
     __tablename__ = 'channel'
     id_channel = Column(Integer, primary_key=True, index=True)
     value = Column(Float)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
-    id_sensor = Column(Integer, ForeignKey("sensor.id"))
+    id_sensor = Column(Integer, ForeignKey("sensor.id_sensor"))
 
 # Dependency
 def get_db():

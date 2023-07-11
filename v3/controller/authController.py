@@ -35,7 +35,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, settings.SECRET, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
-async def cookie_checker(token : str, db: Session):
+async def cookie_checker(token : str):
     auth = jwt.decode(token, settings.SECRET, algorithms=[settings.ALGORITHM])
     if datetime.fromtimestamp(auth.get("exp")) < datetime.now():
         raise HTTPException(
@@ -92,7 +92,7 @@ async def login(response: Response, password: str = Form(), email: str = Form(),
     if Account.check_pass(email, password, db):
         akun = Account.get_user(email, db)
         access_token = create_access_token(
-            data={"sub": akun.email, "id": akun.id, "is_admin": akun.is_admin}, expires_delta=access_token_expires
+            data={"sub": akun.email, "id": akun.id_user, "is_admin": akun.isadmin}, expires_delta=access_token_expires
         )
         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
         response.set_cookie(key='user', value=access_token)
@@ -103,7 +103,7 @@ async def login(response: Response, password: str = Form(), email: str = Form(),
 @router.post("/change-password")
 async def change(request: Request, old_password: str = Form(), new_password: str = Form(), db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    acc = await cookie_checker(kue, db)
+    acc = await cookie_checker(kue)
     if acc:
         change = Account.update_byself(acc.email, old_password, new_password, db)
         if change:
@@ -116,7 +116,7 @@ async def change(request: Request, old_password: str = Form(), new_password: str
 @router.get("/user")
 async def get_user(request: Request, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    acc = await cookie_checker(kue, db)
+    acc = await cookie_checker(kue)
     if acc:
         return templates.TemplateResponse("user.html", {"request": request, "akun":acc})
     else:
@@ -125,7 +125,7 @@ async def get_user(request: Request, db: Session = Depends(get_db)):
 @router.get("/all-user")
 async def get_all_user(request: Request, db: Session = Depends(get_db)):
     kue = request.cookies.get('user')
-    acc = await cookie_checker(kue, db)
+    acc = await cookie_checker(kue)
     if acc.is_admin:
         all_acc = Account.get_all_user(db)
         return templates.TemplateResponse("all_user.html", {"request": request, "akuns":all_acc})
